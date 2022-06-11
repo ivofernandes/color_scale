@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    List<double> values = [-20, -15, -10, -5, 0, 5, 10, 15, 20];
+    List<double> values = [-25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25];
 
     return MaterialApp(
         title: 'Color Scale Demo',
