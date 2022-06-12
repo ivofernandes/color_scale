@@ -22,47 +22,56 @@ class MyApp extends StatelessWidget {
           body: Container(
             margin: EdgeInsets.all(10),
             child: Column(
-              children: values
-                  .map(
-                    (value) => Container(
-                      margin: EdgeInsets.all(10),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        child: Container(
-                          alignment: Alignment.bottomRight,
-                          width: 60,
-                          child: ColorScaleWidget(
-                              value: value,
-                              child: Container(
-                                margin: EdgeInsets.all(5),
-                                child: Wrap(
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  alignment: WrapAlignment.end,
-                                  children: [
-                                    Text(
-                                      'Value: ',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .copyWith(fontSize: 10),
+              children: [
+                Text('Colors from red to green'),
+                Wrap(
+                  children: values
+                      .map(
+                        (value) => Container(
+                          margin: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            child: Container(
+                              alignment: Alignment.bottomRight,
+                              width: 60,
+                              child: ColorScaleWidget(
+                                  value: value,
+                                  minColor: Colors.red,
+                                  maxColor: Colors.green,
+                                  child: Container(
+                                    margin: EdgeInsets.all(5),
+                                    child: Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      alignment: WrapAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Value: ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .copyWith(fontSize: 10),
+                                        ),
+                                        Center(
+                                          child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Text(
+                                                '${value.toStringAsFixed(2)}%',
+                                                style: TextStyle(
+                                                    color: Colors.blueAccent),
+                                              )),
+                                        ),
+                                      ],
                                     ),
-                                    Center(
-                                      child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            '${value.toStringAsFixed(2)}%',
-                                            style: TextStyle(
-                                                color: Colors.blueAccent),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              )),
+                                  )),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
-                  .toList(),
+                      )
+                      .toList(),
+                ),
+              ],
             ),
           ),
         ));

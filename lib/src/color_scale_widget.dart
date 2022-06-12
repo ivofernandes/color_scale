@@ -39,13 +39,14 @@ class ColorScaleWidget extends StatelessWidget {
       return Colors.black;
     }
 
-    double percentageOfMaxColor = value / maxValue;
+    double range = maxValue - minValue;
+    double relativeValue = value - minValue;
+
+    double percentageOfMaxColor = relativeValue / range;
     percentageOfMaxColor = min(percentageOfMaxColor, 1);
     percentageOfMaxColor = max(percentageOfMaxColor, 0);
 
-    double percentageOfMinColor = value / minValue;
-    percentageOfMinColor = min(percentageOfMinColor, 1);
-    percentageOfMinColor = max(percentageOfMinColor, 0);
+    double percentageOfMinColor = 1 - percentageOfMaxColor;
 
     double green = minColor.green * percentageOfMinColor +
         maxColor.green * percentageOfMaxColor;
