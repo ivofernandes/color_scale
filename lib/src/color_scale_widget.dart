@@ -2,16 +2,25 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+/// This widget is a container that have a background color that depends on a value
 class ColorScaleWidget extends StatelessWidget {
+  /// Value taken in consideration to choose the color
   final double value;
 
+  /// Min vale for the the value ranges
   final double minValue;
+
+  /// Color if the value passed is the minValue
+  final Color minColor;
+
+  /// Max value for the value ranges
   final double maxValue;
 
-  final Color minColor;
+  /// Color if the value passed is the maxValue
   final Color maxColor;
 
-  final Widget child;
+  /// Widget that will be rendered inside the container
+  final Widget? child;
 
   const ColorScaleWidget(
       {required this.value,
@@ -19,7 +28,7 @@ class ColorScaleWidget extends StatelessWidget {
       this.maxValue = 20,
       this.minColor = Colors.red,
       this.maxColor = Colors.green,
-      required this.child,
+      this.child,
       Key? key})
       : super(key: key);
 
