@@ -1,7 +1,8 @@
 This project is for making a color of a widget dynamic depending on a value, this a behaviour common to see in excel or google sheets,
 when you want to have a  color giving an indication of what value is being presented and make the data consumtion easier and more intuitive
 
-![Color scale](https://raw.githubusercontent.com/ivofernandes/color_scale/master/doc/simulator_screenshot_1.png?raw=true)
+![Color scale example screenshot 1](https://raw.githubusercontent.com/ivofernandes/color_scale/master/doc/simulator_screenshot_1.png?raw=true)
+![Color scale example screenshot 2](https://raw.githubusercontent.com/ivofernandes/color_scale/master/doc/simulator_screenshot_2.png?raw=true)
 
 ## Features
 
