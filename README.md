@@ -4,6 +4,10 @@ when you want to have a  color giving an indication of what value is being prese
 ![Color scale example screenshot 1](https://raw.githubusercontent.com/ivofernandes/color_scale/master/doc/simulator_screenshot_1.png?raw=true)
 ![Color scale example screenshot 2](https://raw.githubusercontent.com/ivofernandes/color_scale/master/doc/simulator_screenshot_2.png?raw=true)
 
+
+In this video I explained how to use color scale, in a flutter project
+https://www.youtube.com/watch?v=jqckPlHoRTI
+
 ## Features
 
 Create a container with a color that depends on a value
@@ -13,7 +17,7 @@ Create a container with a color that depends on a value
 
 Add the dependency to your `pubspec.yaml`:
 ```
-color_scale: ^0.0.1
+color_scale: ^0.0.3
 ```
 
 ## Usage

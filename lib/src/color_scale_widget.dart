@@ -57,12 +57,15 @@ class ColorScaleWidget extends StatelessWidget {
 
     double percentageOfMinColor = 1 - percentageOfMaxColor;
 
+    double opacity = minColor.opacity * percentageOfMinColor +
+        maxColor.opacity * percentageOfMaxColor;
+
     double green = minColor.green * percentageOfMinColor +
         maxColor.green * percentageOfMaxColor;
     double blue = minColor.blue * percentageOfMinColor +
         maxColor.blue * percentageOfMaxColor;
     double red = minColor.red * percentageOfMinColor +
         maxColor.red * percentageOfMaxColor;
-    return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), 1);
+    return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), opacity);
   }
 }

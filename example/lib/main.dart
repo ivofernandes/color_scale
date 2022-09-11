@@ -149,8 +149,8 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                     Colors.red,
                     Colors.orange,
                     Colors.amberAccent,
-                    Colors.purple,
-                    Colors.pink
+                    Colors.purple.withOpacity(0.25),
+                    Colors.pink.withOpacity(0.5)
                   ],
                 ),
                 const Text('Minimum Value'),
@@ -170,8 +170,8 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                     Colors.green,
                     Colors.greenAccent,
                     Colors.blue,
-                    Colors.cyan,
-                    Colors.teal
+                    Colors.cyan.withOpacity(0.25),
+                    Colors.teal.withOpacity(0.5)
                   ],
                 ),
                 const Text('Maximum Value'),
