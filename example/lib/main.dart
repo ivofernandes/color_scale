@@ -18,22 +18,22 @@ class MyApp extends StatelessWidget {
         title: 'Color Scale Demo',
         home: Scaffold(
           appBar: AppBar(
-            title: Text('Color scale'),
+            title: const Text('Color scale'),
           ),
           body: SingleChildScrollView(
             child: Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               child: Column(
-                children: [
-                  const SizedBox(
+                children: const [
+                  SizedBox(
                     height: 20,
                   ),
-                  const Text('Example with slider'),
+                  Text('Example with slider'),
                   ExampleWithSlider(
                       text: 'Slide between min and max color',
                       minColor: Colors.red,
                       maxColor: Colors.green),
-                  const SizedBox(
+                  SizedBox(
                     height: 50,
                   ),
                   TestColorScale(
@@ -60,10 +60,10 @@ class MyApp extends StatelessWidget {
                     maxValue: 20,
                     maxColor: Colors.yellow,
                   ),
-                  const Text('Childless example'),
+                  Text('Childless example'),
                   ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
+                    child: SizedBox(
                       width: 50,
                       height: 50,
                       child: ColorScaleWidget(
@@ -92,14 +92,14 @@ class ExampleWithSlider extends StatefulWidget {
   final double maxValue;
   final Color maxColor;
 
-  const ExampleWithSlider(
-      {this.text = '',
-      this.minValue = -20,
-      this.minColor = Colors.red,
-      this.maxValue = 20,
-      this.maxColor = Colors.green,
-      Key? key})
-      : super(key: key);
+  const ExampleWithSlider({
+    this.text = '',
+    this.minValue = -20,
+    this.minColor = Colors.red,
+    this.maxValue = 20,
+    this.maxColor = Colors.green,
+    super.key,
+  });
 
   @override
   State<ExampleWithSlider> createState() => _ExampleWithSliderState();
@@ -133,7 +133,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
       ),
       elevation: 5,
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: Column(
           children: [
             Column(
@@ -197,7 +197,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                         maxValue: maxValue,
                         maxColor: maxColor,
                         child: Container(
-                            margin: EdgeInsets.all(5),
+                            margin: const EdgeInsets.all(5),
                             child: Column(
                               children: [
                                 Text(widget.text),
@@ -229,16 +229,16 @@ class MyColorPicker extends StatefulWidget {
   // The default picked color
   final Color initialColor;
 
-  // Determnie shapes of color cells
+  // Determine shapes of color cells
   final bool circleItem;
 
-  const MyColorPicker(
-      {Key? key,
-      required this.onSelectColor,
-      required this.availableColors,
-      required this.initialColor,
-      this.circleItem = true})
-      : super(key: key);
+  const MyColorPicker({
+    super.key,
+    required this.onSelectColor,
+    required this.availableColors,
+    required this.initialColor,
+    this.circleItem = true,
+  });
 
   @override
   _MyColorPickerState createState() => _MyColorPickerState();
@@ -310,13 +310,15 @@ class TestColorScale extends StatelessWidget {
   final double maxValue;
   final Color maxColor;
 
-  const TestColorScale(
-      {this.text = '',
-      this.values = const [],
-      this.minValue = -20,
-      this.minColor = Colors.red,
-      this.maxValue = 20,
-      this.maxColor = Colors.green});
+  const TestColorScale({
+    this.text = '',
+    this.values = const [],
+    this.minValue = -20,
+    this.minColor = Colors.red,
+    this.maxValue = 20,
+    this.maxColor = Colors.green,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -340,7 +342,7 @@ class TestColorScale extends StatelessWidget {
                           maxValue: maxValue,
                           maxColor: maxColor,
                           child: Container(
-                            margin: EdgeInsets.all(5),
+                            margin: const EdgeInsets.all(5),
                             child: Wrap(
                               crossAxisAlignment: WrapCrossAlignment.center,
                               alignment: WrapAlignment.end,
@@ -368,7 +370,7 @@ class TestColorScale extends StatelessWidget {
               )
               .toList(),
         ),
-        SizedBox(
+        const SizedBox(
           height: 50,
         )
       ],
