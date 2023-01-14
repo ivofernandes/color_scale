@@ -24,9 +24,17 @@ class MyApp extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.all(10),
               child: Column(
-                children: const [
+                children: [
                   SizedBox(
                     height: 20,
+                  ),
+                  Text('Example with stops'),
+                  StopsValueAndColorsWidget(
+                    colorStops: <double, Color>{
+                      -20: Colors.red,
+                      0: Colors.yellow,
+                      20: Colors.green,
+                    },
                   ),
                   Text('Example with slider'),
                   ExampleWithSlider(
@@ -189,21 +197,24 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                     value: value,
                     onChanged: onSliderMove),
                 ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                    child: ColorScaleWidget(
-                        value: value,
-                        minValue: minValue,
-                        minColor: minColor,
-                        maxValue: maxValue,
-                        maxColor: maxColor,
-                        child: Container(
-                            margin: const EdgeInsets.all(5),
-                            child: Column(
-                              children: [
-                                Text(widget.text),
-                                Text('value: ${value.toStringAsFixed(2)}')
-                              ],
-                            )))),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  child: ColorScaleWidget(
+                    value: value,
+                    minValue: minValue,
+                    minColor: minColor,
+                    maxValue: maxValue,
+                    maxColor: maxColor,
+                    child: Container(
+                      margin: const EdgeInsets.all(5),
+                      child: Column(
+                        children: [
+                          Text(widget.text),
+                          Text('value: ${value.toStringAsFixed(2)}')
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
@@ -375,5 +386,108 @@ class TestColorScale extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+class StopsValueAndColorsWidget extends StatefulWidget {
+  final Map<double, Color> colorStops;
+
+  const StopsValueAndColorsWidget({
+    required this.colorStops,
+    super.key,
+  });
+
+  @override
+  State<StopsValueAndColorsWidget> createState() =>
+      _StopsValueAndColorsWidgetState();
+}
+
+class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
+  Map<double, Color> colorStops = {};
+  double value = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    colorStops = widget.colorStops;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Card(
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Column(
+                children: colorStops.keys.map((stopValue) {
+                  Color stopColor = colorStops[stopValue]!;
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MyColorPicker(
+                        onSelectColor: (color) => setState(() {
+                          colorStops[stopValue] = color;
+                        }),
+                        initialColor: stopColor,
+                        availableColors: [
+                          Colors.red,
+                          Colors.green,
+                          Colors.yellow,
+                          Colors.purple.withOpacity(0.25),
+                          Colors.pink.withOpacity(0.5)
+                        ],
+                      ),
+                      Container(
+                        width: 50,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller:
+                              TextEditingController(text: stopValue.toString()),
+                          onChanged: (inputValue) => setState(() {
+                            double newValue = double.parse(inputValue);
+                            colorStops.remove(stopValue);
+                            colorStops[newValue] = stopColor;
+                          }),
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+              Slider(
+                  min: colorStops.keys.first,
+                  max: colorStops.keys.last,
+                  value: value,
+                  onChanged: onSliderMove),
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                child: ColorScaleStopsWidget(
+                  value: value,
+                  colorStops: colorStops,
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    child: Column(
+                      children: [
+                        Text('Slide between diferent stops'),
+                        Text('value: ${value.toStringAsFixed(2)}')
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void onSliderMove(double value) {
+    setState(() {
+      this.value = value;
+    });
   }
 }
