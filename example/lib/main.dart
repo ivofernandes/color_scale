@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
               margin: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text('Example with stops'),
+                  const Text('Example with stops'),
                   StopsValueAndColorsWidget(
                     colorStops: <double, Color>{
                       -20: Colors.red,
@@ -36,15 +36,15 @@ class MyApp extends StatelessWidget {
                       20: Colors.green,
                     },
                   ),
-                  Text('Example with slider'),
-                  ExampleWithSlider(
+                  const Text('Example with slider'),
+                  const ExampleWithSlider(
                       text: 'Slide between min and max color',
                       minColor: Colors.red,
                       maxColor: Colors.green),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
-                  TestColorScale(
+                  const TestColorScale(
                     text: 'Colors from red to green',
                     values: [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                     maxValue: 20,
                     maxColor: Colors.green,
                   ),
-                  TestColorScale(
+                  const TestColorScale(
                     text: 'Colors from blue to green',
                     values: [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
                     maxValue: 20,
                     maxColor: Colors.green,
                   ),
-                  TestColorScale(
+                  const TestColorScale(
                     text: 'Colors from red to yellow',
                     values: [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
@@ -68,8 +68,8 @@ class MyApp extends StatelessWidget {
                     maxValue: 20,
                     maxColor: Colors.yellow,
                   ),
-                  Text('Childless example'),
-                  ClipRRect(
+                  const Text('Childless example'),
+                  const ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     child: SizedBox(
                       width: 50,
@@ -82,7 +82,23 @@ class MyApp extends StatelessWidget {
                         maxColor: Colors.black,
                       ),
                     ),
-                  )
+                  ),
+                  const Text('Childless example with stops'),
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: ColorScaleStopsWidget(
+                        value: 0,
+                        colorStops: <double, Color>{
+                          -20: Colors.red,
+                          0: Colors.yellow,
+                          20: Colors.green,
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -415,71 +431,76 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        child: Container(
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Column(
-                children: colorStops.keys.map((stopValue) {
-                  Color stopColor = colorStops[stopValue]!;
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MyColorPicker(
-                        onSelectColor: (color) => setState(() {
-                          colorStops[stopValue] = color;
-                        }),
-                        initialColor: stopColor,
-                        availableColors: [
-                          Colors.red,
-                          Colors.green,
-                          Colors.yellow,
-                          Colors.purple.withOpacity(0.25),
-                          Colors.pink.withOpacity(0.5)
-                        ],
-                      ),
-                      Container(
-                        width: 50,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller:
-                              TextEditingController(text: stopValue.toString()),
-                          onChanged: (inputValue) => setState(() {
-                            double newValue = double.parse(inputValue);
-                            colorStops.remove(stopValue);
-                            colorStops[newValue] = stopColor;
-                          }),
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-              Slider(
-                  min: colorStops.keys.first,
-                  max: colorStops.keys.last,
-                  value: value,
-                  onChanged: onSliderMove),
-              ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                child: ColorScaleStopsWidget(
-                  value: value,
-                  colorStops: colorStops,
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    child: Column(
-                      children: [
-                        Text('Slide between diferent stops'),
-                        Text('value: ${value.toStringAsFixed(2)}')
+    int i = 0;
+
+    return Card(
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Column(
+              children: colorStops.keys.map((stopValue) {
+                i++;
+                Color stopColor = colorStops[stopValue]!;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyColorPicker(
+                      onSelectColor: (color) => setState(() {
+                        colorStops[stopValue] = color;
+                      }),
+                      initialColor: stopColor,
+                      availableColors: [
+                        Colors.red,
+                        Colors.green,
+                        Colors.yellow,
+                        Colors.purple.withOpacity(0.25),
+                        Colors.pink.withOpacity(0.5)
                       ],
                     ),
+                    Container(
+                      width: 100,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller:
+                            TextEditingController(text: stopValue.toString()),
+                        onChanged: (inputValue) => setState(() {
+                          double newValue = double.parse(inputValue);
+                          colorStops.remove(stopValue);
+                          colorStops[newValue] = stopColor;
+                        }),
+                        decoration: InputDecoration(
+                          label: Text('Stop $i'),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }).toList(),
+            ),
+            Slider(
+                min: colorStops.keys.first,
+                max: colorStops.keys.last,
+                value: value,
+                onChanged: onSliderMove),
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              child: ColorScaleStopsWidget(
+                value: value,
+                colorStops: colorStops,
+                child: Container(
+                  margin: const EdgeInsets.all(5),
+                  child: Column(
+                    children: [
+                      const Text('Slide between diferent stops'),
+                      Text('value: ${value.toStringAsFixed(2)}')
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

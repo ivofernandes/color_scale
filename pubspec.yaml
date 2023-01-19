@@ -1,6 +1,6 @@
 name: color_scale
 description: Color scale widget that tries to resemble what we have on google sheets
-version: 0.0.3
+version: 0.0.4
 homepage: https://incaview.com
 repository: https://github.com/ivofernandes/color_scale
 

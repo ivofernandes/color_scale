@@ -6,3 +6,6 @@ Improved the example to have a slider
 
 ## 0.0.3
 Added opacity to the final color calculation
+
+## 0.0.4
+Added stops to the color scale
