@@ -24,14 +24,14 @@ class ColorScaleStopsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = _getColorForValue(value);
+    Color color = getColorForValue(value, colorStops);
     return Container(
       color: color,
       child: child,
     );
   }
 
-  Color _getColorForValue(double value) {
+  static Color getColorForValue(double value, Map<double, Color> colorStops) {
     // Check if the value is lower than the lowest stop
     if (value < colorStops.keys.first) {
       return colorStops.values.first;

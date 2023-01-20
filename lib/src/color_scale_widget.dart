@@ -34,7 +34,8 @@ class ColorScaleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = getColorForValue(value);
+    Color color =
+        getColorForValue(value, minValue, minColor, maxValue, maxColor);
 
     return Container(
       color: color,
@@ -43,7 +44,8 @@ class ColorScaleWidget extends StatelessWidget {
   }
 
   /// Gets the color of the container
-  Color getColorForValue(double value) {
+  static Color getColorForValue(double value, double minValue, Color minColor,
+      double maxValue, Color maxColor) {
     if (value.isNaN || value.isInfinite) {
       return Colors.black;
     }
