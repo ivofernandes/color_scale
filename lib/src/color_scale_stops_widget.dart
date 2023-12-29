@@ -19,12 +19,12 @@ class ColorScaleStopsWidget extends StatelessWidget {
     required this.value,
     required this.colorStops,
     this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    Color color = getColorForValue(value, colorStops);
+    final Color color = getColorForValue(value, colorStops);
     return Container(
       color: color,
       child: child,
@@ -56,19 +56,19 @@ class ColorScaleStopsWidget extends StatelessWidget {
       }
     }
     // Calculate the percentage of each color based on the value
-    double range = nextStop - prevStop;
-    double relativeValue = value - prevStop;
+    final double range = nextStop - prevStop;
+    final double relativeValue = value - prevStop;
     double percentageOfNextColor = relativeValue / range;
     percentageOfNextColor = percentageOfNextColor.clamp(0, 1);
-    double percentageOfPrevColor = 1 - percentageOfNextColor;
+    final double percentageOfPrevColor = 1 - percentageOfNextColor;
     // Mix the colors based on the percentage
-    double green = prevColor.green * percentageOfPrevColor +
+    final double green = prevColor.green * percentageOfPrevColor +
         nextColor.green * percentageOfNextColor;
-    double blue = prevColor.blue * percentageOfPrevColor +
+    final double blue = prevColor.blue * percentageOfPrevColor +
         nextColor.blue * percentageOfNextColor;
-    double red = prevColor.red * percentageOfPrevColor +
+    final double red = prevColor.red * percentageOfPrevColor +
         nextColor.red * percentageOfNextColor;
-    double opacity = prevColor.opacity * percentageOfPrevColor +
+    final double opacity = prevColor.opacity * percentageOfPrevColor +
         nextColor.opacity * percentageOfNextColor;
     return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), opacity);
   }

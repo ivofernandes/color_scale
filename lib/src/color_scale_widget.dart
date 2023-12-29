@@ -22,19 +22,19 @@ class ColorScaleWidget extends StatelessWidget {
   /// Widget that will be rendered inside the container
   final Widget? child;
 
-  const ColorScaleWidget(
-      {required this.value,
+  const ColorScaleWidget({
+      required this.value,
       this.minValue = -20,
       this.maxValue = 20,
       this.minColor = Colors.red,
       this.maxColor = Colors.green,
       this.child,
-      Key? key})
-      : super(key: key);
+      super.key,
+      });
 
   @override
   Widget build(BuildContext context) {
-    Color color =
+    final Color color =
         getColorForValue(value, minValue, minColor, maxValue, maxColor);
 
     return Container(
@@ -50,23 +50,23 @@ class ColorScaleWidget extends StatelessWidget {
       return Colors.black;
     }
 
-    double range = maxValue - minValue;
-    double relativeValue = value - minValue;
+    final double range = maxValue - minValue;
+    final double relativeValue = value - minValue;
 
     double percentageOfMaxColor = relativeValue / range;
     percentageOfMaxColor = min(percentageOfMaxColor, 1);
     percentageOfMaxColor = max(percentageOfMaxColor, 0);
 
-    double percentageOfMinColor = 1 - percentageOfMaxColor;
+    final double percentageOfMinColor = 1 - percentageOfMaxColor;
 
-    double opacity = minColor.opacity * percentageOfMinColor +
+    final double opacity = minColor.opacity * percentageOfMinColor +
         maxColor.opacity * percentageOfMaxColor;
 
-    double green = minColor.green * percentageOfMinColor +
+    final double green = minColor.green * percentageOfMinColor +
         maxColor.green * percentageOfMaxColor;
-    double blue = minColor.blue * percentageOfMinColor +
+    final double blue = minColor.blue * percentageOfMinColor +
         maxColor.blue * percentageOfMaxColor;
-    double red = minColor.red * percentageOfMinColor +
+    final double red = minColor.red * percentageOfMinColor +
         maxColor.red * percentageOfMaxColor;
     return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), opacity);
   }
