@@ -1,0 +1,4 @@
+enum ColorScaleTypeEnum{
+  rgb,
+  oklch,
+}

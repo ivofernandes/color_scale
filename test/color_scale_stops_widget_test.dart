@@ -1,4 +1,6 @@
 import 'package:color_scale/src/color_scale_stops_widget.dart';
+import 'package:color_scale/src/core/color_calculation.dart';
+import 'package:color_scale/src/core/color_scale_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -12,7 +14,7 @@ void main() {
   test('getColorForValue returns correct color for value 0%', () {
     const value = 0.0;
     final Color actualColor =
-        ColorScaleStopsWidget.getColorForValue(value, colorStops);
+    ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor.value, Colors.red.value);
   });
@@ -22,7 +24,7 @@ void main() {
 
     final expectedColor = Color.lerp(Colors.red, Colors.yellow, 0.5);
     final actualColor =
-        ColorScaleStopsWidget.getColorForValue(value, colorStops);
+    ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor, expectedColor);
   });
@@ -30,7 +32,7 @@ void main() {
   test('getColorForValue returns correct color for value 50%', () {
     const value = 50.0;
     final actualColor =
-        ColorScaleStopsWidget.getColorForValue(value, colorStops);
+    ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor.value, Colors.yellow.value);
   });
@@ -47,14 +49,14 @@ void main() {
       ),
     );
 
-    final container = tester.widget<Container>(find.byType(Container));
+    final container = tester.widget<ColoredBox>(find.byType(ColoredBox));
     expect(container.color, Color.lerp(Colors.green, Colors.yellow, 0.5));
   });
 
   test('getColorForValue returns correct color for value 100%', () {
     const value = 100.0;
     final actualColor =
-        ColorScaleStopsWidget.getColorForValue(value, colorStops);
+        ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor.value, Colors.green.value);
   });

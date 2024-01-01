@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:color_scale/src/core/color_calculation.dart';
+import 'package:color_scale/src/core/color_scale_type_enum.dart';
 import 'package:flutter/material.dart';
 
 /// This widget is a container that have a background color that depends on a value
@@ -22,6 +24,9 @@ class ColorScaleWidget extends StatelessWidget {
   /// Widget that will be rendered inside the container
   final Widget? child;
 
+  /// Type of color scale to use: RGB or OKLCH
+  final ColorScaleTypeEnum colorScaleTypeEnum;
+
   const ColorScaleWidget({
       required this.value,
       this.minValue = -20,
@@ -29,45 +34,24 @@ class ColorScaleWidget extends StatelessWidget {
       this.minColor = Colors.red,
       this.maxColor = Colors.green,
       this.child,
+      this.colorScaleTypeEnum = ColorScaleTypeEnum.oklch,
       super.key,
       });
 
   @override
   Widget build(BuildContext context) {
-    final Color color =
-        getColorForValue(value, minValue, minColor, maxValue, maxColor);
+    final Color color = ColorCalculation.getColorForValue(
+        value,
+        {
+          minValue: minColor,
+          maxValue: maxColor,
+        },
+        colorScaleTypeEnum,
+    );
 
-    return Container(
+    return ColoredBox(
       color: color,
       child: child,
     );
-  }
-
-  /// Gets the color of the container
-  static Color getColorForValue(double value, double minValue, Color minColor,
-      double maxValue, Color maxColor) {
-    if (value.isNaN || value.isInfinite) {
-      return Colors.black;
-    }
-
-    final double range = maxValue - minValue;
-    final double relativeValue = value - minValue;
-
-    double percentageOfMaxColor = relativeValue / range;
-    percentageOfMaxColor = min(percentageOfMaxColor, 1);
-    percentageOfMaxColor = max(percentageOfMaxColor, 0);
-
-    final double percentageOfMinColor = 1 - percentageOfMaxColor;
-
-    final double opacity = minColor.opacity * percentageOfMinColor +
-        maxColor.opacity * percentageOfMaxColor;
-
-    final double green = minColor.green * percentageOfMinColor +
-        maxColor.green * percentageOfMaxColor;
-    final double blue = minColor.blue * percentageOfMinColor +
-        maxColor.blue * percentageOfMaxColor;
-    final double red = minColor.red * percentageOfMinColor +
-        maxColor.red * percentageOfMaxColor;
-    return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), opacity);
   }
 }
