@@ -12,8 +12,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Color Scale Demo',
         home: Scaffold(
@@ -104,7 +103,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ));
-  }
 }
 
 class ExampleWithSlider extends StatefulWidget {
@@ -150,8 +148,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
+  Widget build(BuildContext context) => Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -237,7 +234,6 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
         ),
       ),
     );
-  }
 
   void onSliderMove(double value) {
     setState(() {
@@ -282,8 +278,7 @@ class _MyColorPickerState extends State<MyColorPicker> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
+  Widget build(BuildContext context) => SizedBox(
       width: double.infinity,
       height: 80,
       child: GridView.builder(
@@ -324,7 +319,6 @@ class _MyColorPickerState extends State<MyColorPicker> {
         },
       ),
     );
-  }
 }
 
 class TestColorScale extends StatelessWidget {
@@ -348,8 +342,7 @@ class TestColorScale extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
+  Widget build(BuildContext context) => Column(
       children: [
         Text(text),
         Wrap(
@@ -402,7 +395,6 @@ class TestColorScale extends StatelessWidget {
         )
       ],
     );
-  }
 }
 
 class StopsValueAndColorsWidget extends StatefulWidget {

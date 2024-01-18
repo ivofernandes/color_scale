@@ -9,3 +9,6 @@ Added opacity to the final color calculation
 
 ## 0.0.4
 Added stops to the color scale
+
+## 0.0.5
+Added color scaled based on HSV

@@ -29,7 +29,7 @@ class ColorScaleStopsWidget extends StatelessWidget {
   const ColorScaleStopsWidget({
     required this.value,
     required this.colorStops,
-    this.colorScaleTypeEnum = ColorScaleTypeEnum.oklch,
+    this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
     this.child,
     super.key,
   });

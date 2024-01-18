@@ -34,7 +34,7 @@ class ColorScaleWidget extends StatelessWidget {
       this.minColor = Colors.red,
       this.maxColor = Colors.green,
       this.child,
-      this.colorScaleTypeEnum = ColorScaleTypeEnum.oklch,
+      this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
       super.key,
       });
 
