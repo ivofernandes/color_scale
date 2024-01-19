@@ -64,6 +64,12 @@ class ColorCalculation {
   }
 
   static Color _getColorForValueOKLCH(Color prevColor, Color nextColor, double percentageOfPrevColor, double percentageOfNextColor) {
+    // Alpha is calculated independently
+    final double alpha = prevColor.opacity * percentageOfPrevColor +
+        nextColor.opacity * percentageOfNextColor;
+
+
+    // RGB is calculated by using the HSLuvColor class
     final HSLuvColor prevHsluvColor = HSLuvColor.fromColor(prevColor);
     final HSLuvColor nextHsluvColor = HSLuvColor.fromColor(nextColor);
 
@@ -77,7 +83,8 @@ class ColorCalculation {
         nextHsluvColor.hue * percentageOfNextColor;
 
 
-    return HSLuvColor.fromHSL(hue, saturation, lightness).toColor();
+    final Color color = HSLuvColor.fromHSL(hue, saturation, lightness).toColor();
+    return color.withOpacity(alpha);
   }
 
 }

@@ -7,10 +7,19 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({
+    super.key,
+  });
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  ColorScaleTypeEnum colorScaleTypeEnum = ColorScaleTypeEnum.hsluv;
+
   @override
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -24,16 +33,32 @@ class MyApp extends StatelessWidget {
               margin: const EdgeInsets.all(10),
               child: Column(
                 children: [
+                  DropdownButton<ColorScaleTypeEnum>(
+                    value: colorScaleTypeEnum,
+                    onChanged: (ColorScaleTypeEnum? newValue) {
+                      setState(() {
+                        colorScaleTypeEnum = newValue!;
+                      });
+                    },
+                    items: ColorScaleTypeEnum.values
+                        .map<DropdownMenuItem<ColorScaleTypeEnum>>((ColorScaleTypeEnum value) => DropdownMenuItem<ColorScaleTypeEnum>(
+                        value: value,
+                        child: Text(value.toString().split('.').last),
+                      ),
+                    ).toList(),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   const Text('Example with stops'),
                   StopsValueAndColorsWidget(
+                    key: UniqueKey(),
                     colorStops: <double, Color>{
-                      -20: Colors.red,
-                      0: Colors.yellow,
-                      20: Colors.green,
+                      -5: Colors.red,
+                      0: Color(0xff808080),
+                      5: Colors.green,
                     },
+                    colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
                   const Text('Example with slider'),
                   const ExampleWithSlider(
@@ -43,32 +68,35 @@ class MyApp extends StatelessWidget {
                   const SizedBox(
                     height: 50,
                   ),
-                  const TestColorScale(
+                  TestColorScale(
                     text: 'Colors from red to green',
                     values: [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
                     minColor: Colors.red,
                     maxValue: 20,
                     maxColor: Colors.green,
+                    colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
-                  const TestColorScale(
+                  TestColorScale(
                     text: 'Colors from blue to green',
                     values: [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
                     minColor: Colors.blue,
                     maxValue: 20,
                     maxColor: Colors.green,
+                    colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
-                  const TestColorScale(
+                  TestColorScale(
                     text: 'Colors from red to yellow',
                     values: [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
                     minColor: Colors.red,
                     maxValue: 20,
                     maxColor: Colors.yellow,
+                    colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
                   const Text('Childless example'),
-                  const ClipRRect(
+                  ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     child: SizedBox(
                       width: 50,
@@ -79,6 +107,7 @@ class MyApp extends StatelessWidget {
                         minColor: Colors.white,
                         maxValue: 20,
                         maxColor: Colors.black,
+                        colorScaleTypeEnum: colorScaleTypeEnum,
                       ),
                     ),
                   ),
@@ -95,6 +124,7 @@ class MyApp extends StatelessWidget {
                           0: Colors.yellow,
                           20: Colors.green,
                         },
+                        colorScaleTypeEnum: colorScaleTypeEnum,
                       ),
                     ),
                   ),
@@ -102,7 +132,8 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-        ));
+        ),
+  );
 }
 
 class ExampleWithSlider extends StatefulWidget {
@@ -114,12 +145,14 @@ class ExampleWithSlider extends StatefulWidget {
   final double maxValue;
   final Color maxColor;
 
+  final ColorScaleTypeEnum colorScaleTypeEnum;
   const ExampleWithSlider({
     this.text = '',
     this.minValue = -20,
     this.minColor = Colors.red,
     this.maxValue = 20,
     this.maxColor = Colors.green,
+    this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
     super.key,
   });
 
@@ -217,6 +250,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                     minColor: minColor,
                     maxValue: maxValue,
                     maxColor: maxColor,
+                    colorScaleTypeEnum: widget.colorScaleTypeEnum,
                     child: Container(
                       margin: const EdgeInsets.all(5),
                       child: Column(
@@ -256,11 +290,11 @@ class MyColorPicker extends StatefulWidget {
   final bool circleItem;
 
   const MyColorPicker({
-    super.key,
     required this.onSelectColor,
     required this.availableColors,
     required this.initialColor,
     this.circleItem = true,
+    super.key,
   });
 
   @override
@@ -331,6 +365,8 @@ class TestColorScale extends StatelessWidget {
   final double maxValue;
   final Color maxColor;
 
+  final ColorScaleTypeEnum colorScaleTypeEnum;
+
   const TestColorScale({
     this.text = '',
     this.values = const [],
@@ -338,6 +374,7 @@ class TestColorScale extends StatelessWidget {
     this.minColor = Colors.red,
     this.maxValue = 20,
     this.maxColor = Colors.green,
+    this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
     super.key,
   });
 
@@ -361,6 +398,7 @@ class TestColorScale extends StatelessWidget {
                           minColor: minColor,
                           maxValue: maxValue,
                           maxColor: maxColor,
+                          colorScaleTypeEnum: colorScaleTypeEnum,
                           child: Container(
                             margin: const EdgeInsets.all(5),
                             child: Wrap(
@@ -369,21 +407,18 @@ class TestColorScale extends StatelessWidget {
                               children: [
                                 Text(
                                   'Value: ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .copyWith(fontSize: 10),
+                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 10),
                                 ),
                                 Center(
                                   child: FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
                                         '${value.toStringAsFixed(2)}%',
-                                      )),
+                                      ),),
                                 ),
                               ],
                             ),
-                          )),
+                          ),),
                     ),
                   ),
                 ),
@@ -400,8 +435,10 @@ class TestColorScale extends StatelessWidget {
 class StopsValueAndColorsWidget extends StatefulWidget {
   final Map<double, Color> colorStops;
 
+  final ColorScaleTypeEnum colorScaleTypeEnum;
   const StopsValueAndColorsWidget({
     required this.colorStops,
+    required this.colorScaleTypeEnum,
     super.key,
   });
 
@@ -433,7 +470,7 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
             Column(
               children: colorStops.keys.map((stopValue) {
                 i++;
-                Color stopColor = colorStops[stopValue]!;
+                final Color stopColor = colorStops[stopValue]!;
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -443,9 +480,7 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
                       }),
                       initialColor: stopColor,
                       availableColors: [
-                        Colors.red,
-                        Colors.green,
-                        Colors.yellow,
+                        ...colorStops.values,
                         Colors.purple.withOpacity(0.25),
                         Colors.pink.withOpacity(0.5)
                       ],
@@ -481,6 +516,7 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
               child: ColorScaleStopsWidget(
                 value: value,
                 colorStops: colorStops,
+                colorScaleTypeEnum: widget.colorScaleTypeEnum,
                 child: Container(
                   margin: const EdgeInsets.all(5),
                   child: Column(
