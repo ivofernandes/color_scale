@@ -25,19 +25,19 @@ void main() {
 
   testWidgets('ColorScaleWidget renders correct color', (tester) async {
     const minValue = -20.0;
-    final minColor = Colors.red;
-    final maxValue = 20.0;
-    final maxColor = Colors.green;
-    final value = 0.0;
+    const minColor = Colors.red;
+    const maxValue = 20.0;
+    const maxColor = Colors.green;
+    const value = 0.0;
 
     await tester.pumpWidget(
-      ColorScaleWidget(
+      const ColorScaleWidget(
         value: value,
         minValue: minValue,
         minColor: minColor,
         maxValue: maxValue,
         maxColor: maxColor,
-        child: const SizedBox(),
+        child: SizedBox(),
         colorScaleTypeEnum: ColorScaleTypeEnum.rgb,
       ),
     );

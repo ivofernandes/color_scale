@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:color_scale/src/core/color_calculation.dart';
 import 'package:color_scale/src/core/color_scale_type_enum.dart';
 import 'package:flutter/material.dart';

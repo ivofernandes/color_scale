@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
                     key: UniqueKey(),
                     colorStops: <double, Color>{
                       -5: Colors.red,
-                      0: Color(0xff808080),
+                      0: const Color(0xff808080),
                       5: Colors.green,
                     },
                     colorScaleTypeEnum: colorScaleTypeEnum,
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                   TestColorScale(
                     text: 'Colors from red to green',
-                    values: [-20, -15, -10, -5, 0, 5, 10, 15],
+                    values: const [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
                     minColor: Colors.red,
                     maxValue: 20,
@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                   TestColorScale(
                     text: 'Colors from blue to green',
-                    values: [-20, -15, -10, -5, 0, 5, 10, 15],
+                    values: const [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
                     minColor: Colors.blue,
                     maxValue: 20,
@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                   TestColorScale(
                     text: 'Colors from red to yellow',
-                    values: [-20, -15, -10, -5, 0, 5, 10, 15],
+                    values: const [-20, -15, -10, -5, 0, 5, 10, 15],
                     minValue: -20,
                     minColor: Colors.red,
                     maxValue: 20,
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                   const Text('Childless example'),
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: SizedBox(
                       width: 50,
                       height: 50,
@@ -183,7 +183,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
   @override
   Widget build(BuildContext context) => Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(10),
       ),
       elevation: 5,
       child: Container(
@@ -243,7 +243,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                     value: value,
                     onChanged: onSliderMove),
                 ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: ColorScaleWidget(
                     value: value,
                     minValue: minValue,
@@ -278,7 +278,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
 
 class MyColorPicker extends StatefulWidget {
   // This function sends the selected color to outside
-  final Function onSelectColor;
+  final void Function(Color) onSelectColor;
 
   // List of pickable colors
   final List<Color> availableColors;
@@ -323,7 +323,7 @@ class _MyColorPickerState extends State<MyColorPicker> {
             mainAxisSpacing: 10),
         itemCount: widget.availableColors.length,
         itemBuilder: (context, index) {
-          final itemColor = widget.availableColors[index];
+          final Color itemColor = widget.availableColors[index];
           return InkWell(
             onTap: () {
               widget.onSelectColor(itemColor);
@@ -388,7 +388,7 @@ class TestColorScale extends StatelessWidget {
                 (value) => Container(
                   margin: const EdgeInsets.all(10),
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: Container(
                       alignment: Alignment.bottomRight,
                       width: 60,
@@ -407,7 +407,7 @@ class TestColorScale extends StatelessWidget {
                               children: [
                                 Text(
                                   'Value: ',
-                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 10),
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 10),
                                 ),
                                 Center(
                                   child: FittedBox(
@@ -493,7 +493,7 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
                         controller:
                             TextEditingController(text: stopValue.toString()),
                         onChanged: (inputValue) => setState(() {
-                          double newValue = double.parse(inputValue);
+                          final double newValue = double.parse(inputValue);
                           colorStops.remove(stopValue);
                           colorStops[newValue] = stopColor;
                         }),
@@ -512,7 +512,7 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
                 value: value,
                 onChanged: onSliderMove),
             ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: ColorScaleStopsWidget(
                 value: value,
                 colorStops: colorStops,
