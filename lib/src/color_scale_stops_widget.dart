@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 /// Finally, it mixes the two colors based on their percentages
 /// to get the final color for the value.
 class ColorScaleStopsWidget extends StatelessWidget {
-
   /// Value taken in consideration to choose the color
   final double value;
 
@@ -36,7 +35,8 @@ class ColorScaleStopsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
+    final Color color = ColorCalculation.getColorForValue(
+        value, colorStops, ColorScaleTypeEnum.rgb);
     return ColoredBox(
       color: color,
       child: child,

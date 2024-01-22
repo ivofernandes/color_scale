@@ -13,7 +13,11 @@ void main() {
 
     const Color expectedColor = Color(0xffa38f3d);
     final Color actualColor = ColorCalculation.getColorForValue(
-        value, {minValue: minColor, maxValue: maxColor,},
+      value,
+      {
+        minValue: minColor,
+        maxValue: maxColor,
+      },
       ColorScaleTypeEnum.hsluv,
     );
 
@@ -21,5 +25,4 @@ void main() {
     assert(actualColor.red == expectedColor.red);
     assert(actualColor.green == expectedColor.green);
   });
-
 }

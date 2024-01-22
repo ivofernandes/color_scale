@@ -1,3 +1,3 @@
 cd ..
-dart format
+dart format .
 dart pub publish

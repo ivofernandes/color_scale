@@ -13,8 +13,8 @@ void main() {
 
   test('getColorForValue returns correct color for value 0%', () {
     const value = 0.0;
-    final Color actualColor =
-    ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
+    final Color actualColor = ColorCalculation.getColorForValue(
+        value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor.value, Colors.red.value);
   });
@@ -23,16 +23,16 @@ void main() {
     const value = 25.0;
 
     final expectedColor = Color.lerp(Colors.red, Colors.yellow, 0.5);
-    final actualColor =
-    ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
+    final actualColor = ColorCalculation.getColorForValue(
+        value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor, expectedColor);
   });
 
   test('getColorForValue returns correct color for value 50%', () {
     const value = 50.0;
-    final actualColor =
-    ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
+    final actualColor = ColorCalculation.getColorForValue(
+        value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor.value, Colors.yellow.value);
   });
@@ -55,8 +55,8 @@ void main() {
 
   test('getColorForValue returns correct color for value 100%', () {
     const value = 100.0;
-    final actualColor =
-        ColorCalculation.getColorForValue(value, colorStops, ColorScaleTypeEnum.rgb);
+    final actualColor = ColorCalculation.getColorForValue(
+        value, colorStops, ColorScaleTypeEnum.rgb);
 
     expect(actualColor.value, Colors.green.value);
   });

@@ -1,4 +1,4 @@
-enum ColorScaleTypeEnum{
+enum ColorScaleTypeEnum {
   rgb,
   hsluv,
 }

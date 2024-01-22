@@ -14,7 +14,11 @@ void main() {
 
     final Color expectedColor = Color.lerp(Colors.red, Colors.green, 0.5)!;
     final actualColor = ColorCalculation.getColorForValue(
-        value, {minValue: minColor, maxValue: maxColor,},
+      value,
+      {
+        minValue: minColor,
+        maxValue: maxColor,
+      },
       ColorScaleTypeEnum.rgb,
     );
 
@@ -42,7 +46,8 @@ void main() {
       ),
     );
 
-    final ColoredBox container = tester.widget<ColoredBox>(find.byType(ColoredBox));
+    final ColoredBox container =
+        tester.widget<ColoredBox>(find.byType(ColoredBox));
     expect(container.color, Color.lerp(Colors.red, Colors.green, 0.5));
   });
 
@@ -55,11 +60,13 @@ void main() {
     const double infinityValue = double.infinity;
 
     final Color colorForNan = ColorCalculation.getColorForValue(
-        nanValue, {minValue: minColor, maxValue: maxColor},
+      nanValue,
+      {minValue: minColor, maxValue: maxColor},
       ColorScaleTypeEnum.rgb,
     );
     final Color colorForInfinity = ColorCalculation.getColorForValue(
-      infinityValue, {minValue: minColor, maxValue: maxColor},
+      infinityValue,
+      {minValue: minColor, maxValue: maxColor},
       ColorScaleTypeEnum.rgb,
     );
 
@@ -70,6 +77,5 @@ void main() {
     assert(colorForInfinity.blue == maxColor.blue);
     assert(colorForInfinity.red == maxColor.red);
     assert(colorForInfinity.green == maxColor.green);
-
   });
 }

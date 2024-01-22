@@ -26,25 +26,25 @@ class ColorScaleWidget extends StatelessWidget {
   final ColorScaleTypeEnum colorScaleTypeEnum;
 
   const ColorScaleWidget({
-      required this.value,
-      this.minValue = -20,
-      this.maxValue = 20,
-      this.minColor = Colors.red,
-      this.maxColor = Colors.green,
-      this.child,
-      this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
-      super.key,
-      });
+    required this.value,
+    this.minValue = -20,
+    this.maxValue = 20,
+    this.minColor = Colors.red,
+    this.maxColor = Colors.green,
+    this.child,
+    this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final Color color = ColorCalculation.getColorForValue(
-        value,
-        {
-          minValue: minColor,
-          maxValue: maxColor,
-        },
-        colorScaleTypeEnum,
+      value,
+      {
+        minValue: minColor,
+        maxValue: maxColor,
+      },
+      colorScaleTypeEnum,
     );
 
     return ColoredBox(
@@ -52,4 +52,14 @@ class ColorScaleWidget extends StatelessWidget {
       child: child,
     );
   }
+
+  /// Returns the color for a given value, it's here just to keep backward compatibility
+  Color getColorForValue(double value) => ColorCalculation.getColorForValue(
+        value,
+        {
+          minValue: minColor,
+          maxValue: maxColor,
+        },
+        colorScaleTypeEnum,
+      );
 }

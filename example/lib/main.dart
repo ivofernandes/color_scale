@@ -17,7 +17,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   ColorScaleTypeEnum colorScaleTypeEnum = ColorScaleTypeEnum.hsluv;
 
   @override
@@ -41,11 +40,14 @@ class _MyAppState extends State<MyApp> {
                       });
                     },
                     items: ColorScaleTypeEnum.values
-                        .map<DropdownMenuItem<ColorScaleTypeEnum>>((ColorScaleTypeEnum value) => DropdownMenuItem<ColorScaleTypeEnum>(
-                        value: value,
-                        child: Text(value.toString().split('.').last),
-                      ),
-                    ).toList(),
+                        .map<DropdownMenuItem<ColorScaleTypeEnum>>(
+                          (ColorScaleTypeEnum value) =>
+                              DropdownMenuItem<ColorScaleTypeEnum>(
+                            value: value,
+                            child: Text(value.toString().split('.').last),
+                          ),
+                        )
+                        .toList(),
                   ),
                   const SizedBox(
                     height: 20,
@@ -133,7 +135,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-  );
+      );
 }
 
 class ExampleWithSlider extends StatefulWidget {
@@ -182,92 +184,94 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
 
   @override
   Widget build(BuildContext context) => Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 5,
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text('Minimum Color'),
-                MyColorPicker(
-                  onSelectColor: (color) => setState(() => minColor = color),
-                  initialColor: minColor,
-                  availableColors: [
-                    Colors.red,
-                    Colors.orange,
-                    Colors.amberAccent,
-                    Colors.purple.withOpacity(0.25),
-                    Colors.pink.withOpacity(0.5)
-                  ],
-                ),
-                const Text('Minimum Value'),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  controller: TextEditingController(text: minValue.toString()),
-                  onChanged: (inputValue) => setState(() {
-                    minValue = double.parse(inputValue);
-                    value = max(value, minValue);
-                  }),
-                ),
-                const Text('Maximum Color'),
-                MyColorPicker(
-                  onSelectColor: (color) => setState(() => maxColor = color),
-                  initialColor: maxColor,
-                  availableColors: [
-                    Colors.green,
-                    Colors.greenAccent,
-                    Colors.blue,
-                    Colors.cyan.withOpacity(0.25),
-                    Colors.teal.withOpacity(0.5)
-                  ],
-                ),
-                const Text('Maximum Value'),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  controller: TextEditingController(text: maxValue.toString()),
-                  onChanged: (inputValue) => setState(() {
-                    maxValue = double.parse(inputValue);
-                    value = min(value, maxValue);
-                  }),
-                ),
-                Slider(
-                    min: minValue,
-                    max: maxValue,
-                    value: value,
-                    onChanged: onSliderMove),
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: ColorScaleWidget(
-                    value: value,
-                    minValue: minValue,
-                    minColor: minColor,
-                    maxValue: maxValue,
-                    maxColor: maxColor,
-                    colorScaleTypeEnum: widget.colorScaleTypeEnum,
-                    child: Container(
-                      margin: const EdgeInsets.all(5),
-                      child: Column(
-                        children: [
-                          Text(widget.text),
-                          Text('value: ${value.toStringAsFixed(2)}')
-                        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 5,
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text('Minimum Color'),
+                  MyColorPicker(
+                    onSelectColor: (color) => setState(() => minColor = color),
+                    initialColor: minColor,
+                    availableColors: [
+                      Colors.red,
+                      Colors.orange,
+                      Colors.amberAccent,
+                      Colors.purple.withOpacity(0.25),
+                      Colors.pink.withOpacity(0.5)
+                    ],
+                  ),
+                  const Text('Minimum Value'),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    controller:
+                        TextEditingController(text: minValue.toString()),
+                    onChanged: (inputValue) => setState(() {
+                      minValue = double.parse(inputValue);
+                      value = max(value, minValue);
+                    }),
+                  ),
+                  const Text('Maximum Color'),
+                  MyColorPicker(
+                    onSelectColor: (color) => setState(() => maxColor = color),
+                    initialColor: maxColor,
+                    availableColors: [
+                      Colors.green,
+                      Colors.greenAccent,
+                      Colors.blue,
+                      Colors.cyan.withOpacity(0.25),
+                      Colors.teal.withOpacity(0.5)
+                    ],
+                  ),
+                  const Text('Maximum Value'),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    controller:
+                        TextEditingController(text: maxValue.toString()),
+                    onChanged: (inputValue) => setState(() {
+                      maxValue = double.parse(inputValue);
+                      value = min(value, maxValue);
+                    }),
+                  ),
+                  Slider(
+                      min: minValue,
+                      max: maxValue,
+                      value: value,
+                      onChanged: onSliderMove),
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: ColorScaleWidget(
+                      value: value,
+                      minValue: minValue,
+                      minColor: minColor,
+                      maxValue: maxValue,
+                      maxColor: maxColor,
+                      colorScaleTypeEnum: widget.colorScaleTypeEnum,
+                      child: Container(
+                        margin: const EdgeInsets.all(5),
+                        child: Column(
+                          children: [
+                            Text(widget.text),
+                            Text('value: ${value.toStringAsFixed(2)}')
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
 
   void onSliderMove(double value) {
     setState(() {
@@ -313,46 +317,46 @@ class _MyColorPickerState extends State<MyColorPicker> {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-      width: double.infinity,
-      height: 80,
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 50,
-            childAspectRatio: 1 / 1,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10),
-        itemCount: widget.availableColors.length,
-        itemBuilder: (context, index) {
-          final Color itemColor = widget.availableColors[index];
-          return InkWell(
-            onTap: () {
-              widget.onSelectColor(itemColor);
-              setState(() {
-                _pickedColor = itemColor;
-              });
-            },
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                  color: itemColor,
-                  shape: widget.circleItem == true
-                      ? BoxShape.circle
-                      : BoxShape.rectangle,
-                  border: Border.all(width: 1, color: Colors.grey.shade300)),
-              child: itemColor == _pickedColor
-                  ? const Center(
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      ),
-                    )
-                  : Container(),
-            ),
-          );
-        },
-      ),
-    );
+        width: double.infinity,
+        height: 80,
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 50,
+              childAspectRatio: 1 / 1,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10),
+          itemCount: widget.availableColors.length,
+          itemBuilder: (context, index) {
+            final Color itemColor = widget.availableColors[index];
+            return InkWell(
+              onTap: () {
+                widget.onSelectColor(itemColor);
+                setState(() {
+                  _pickedColor = itemColor;
+                });
+              },
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: itemColor,
+                    shape: widget.circleItem == true
+                        ? BoxShape.circle
+                        : BoxShape.rectangle,
+                    border: Border.all(width: 1, color: Colors.grey.shade300)),
+                child: itemColor == _pickedColor
+                    ? const Center(
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Container(),
+              ),
+            );
+          },
+        ),
+      );
 }
 
 class TestColorScale extends StatelessWidget {
@@ -380,19 +384,19 @@ class TestColorScale extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-      children: [
-        Text(text),
-        Wrap(
-          children: values
-              .map(
-                (value) => Container(
-                  margin: const EdgeInsets.all(10),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      alignment: Alignment.bottomRight,
-                      width: 60,
-                      child: ColorScaleWidget(
+        children: [
+          Text(text),
+          Wrap(
+            children: values
+                .map(
+                  (value) => Container(
+                    margin: const EdgeInsets.all(10),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: Container(
+                        alignment: Alignment.bottomRight,
+                        width: 60,
+                        child: ColorScaleWidget(
                           value: value,
                           minValue: minValue,
                           minColor: minColor,
@@ -407,29 +411,34 @@ class TestColorScale extends StatelessWidget {
                               children: [
                                 Text(
                                   'Value: ',
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 10),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(fontSize: 10),
                                 ),
                                 Center(
                                   child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        '${value.toStringAsFixed(2)}%',
-                                      ),),
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      '${value.toStringAsFixed(2)}%',
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              )
-              .toList(),
-        ),
-        const SizedBox(
-          height: 50,
-        )
-      ],
-    );
+                )
+                .toList(),
+          ),
+          const SizedBox(
+            height: 50,
+          )
+        ],
+      );
 }
 
 class StopsValueAndColorsWidget extends StatefulWidget {

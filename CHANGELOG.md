@@ -12,3 +12,6 @@ Added stops to the color scale
 
 ## 0.0.5
 Added color scaled based on HSV
+
+## 0.0.6
+Fix format
