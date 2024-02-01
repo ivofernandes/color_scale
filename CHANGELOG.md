@@ -15,3 +15,6 @@ Added color scaled based on HSV
 
 ## 0.0.6
 Fix format
+
+## 0.0.7
+Added optional radius and padding

@@ -25,10 +25,18 @@ class ColorScaleStopsWidget extends StatelessWidget {
   /// Type of color scale to use: RGB or OKLCH
   final ColorScaleTypeEnum colorScaleTypeEnum;
 
+  /// Border radius of the container
+  final BorderRadius borderRadius;
+
+  /// The amount of space by which to inset the child.
+  final EdgeInsetsGeometry padding;
+
   const ColorScaleStopsWidget({
     required this.value,
     required this.colorStops,
     this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
+    this.borderRadius = BorderRadius.zero,
+    this.padding = EdgeInsets.zero,
     this.child,
     super.key,
   });
@@ -36,10 +44,17 @@ class ColorScaleStopsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = ColorCalculation.getColorForValue(
-        value, colorStops, ColorScaleTypeEnum.rgb);
-    return ColoredBox(
-      color: color,
-      child: child,
+        value, colorStops, colorScaleTypeEnum);
+
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: ColoredBox(
+        color: color,
+        child: Padding(
+          padding: padding,
+          child: child,
+        ),
+      ),
     );
   }
 }

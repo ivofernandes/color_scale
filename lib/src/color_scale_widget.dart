@@ -25,12 +25,20 @@ class ColorScaleWidget extends StatelessWidget {
   /// Type of color scale to use: RGB or OKLCH
   final ColorScaleTypeEnum colorScaleTypeEnum;
 
+  /// Border radius of the container
+  final BorderRadius borderRadius;
+
+  /// The amount of space by which to inset the child.
+  final EdgeInsetsGeometry padding;
+
   const ColorScaleWidget({
     required this.value,
     this.minValue = -20,
     this.maxValue = 20,
     this.minColor = Colors.red,
     this.maxColor = Colors.green,
+    this.borderRadius = BorderRadius.zero,
+    this.padding = EdgeInsets.zero,
     this.child,
     this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
     super.key,
@@ -47,9 +55,15 @@ class ColorScaleWidget extends StatelessWidget {
       colorScaleTypeEnum,
     );
 
-    return ColoredBox(
-      color: color,
-      child: child,
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: ColoredBox(
+        color: color,
+        child: Padding(
+          padding: padding,
+          child: child,
+        ),
+      ),
     );
   }
 
