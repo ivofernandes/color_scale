@@ -22,7 +22,7 @@ class ColorScaleWidget extends StatelessWidget {
   /// Widget that will be rendered inside the container
   final Widget? child;
 
-  /// Type of color scale to use: RGB or OKLCH
+  /// Type of color scale to use: RGB, HSLuv, or OKLCH
   final ColorScaleTypeEnum colorScaleTypeEnum;
 
   /// Border radius of the container

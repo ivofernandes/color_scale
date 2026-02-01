@@ -1,6 +1,7 @@
 import 'package:color_scale/src/core/color_scale_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:hsluv/hsluvcolor.dart';
+import 'package:oklch/oklch.dart';
 
 class ColorCalculation {
   static Color getColorForValue(double value, Map<double, Color> colorStops,
@@ -37,14 +38,16 @@ class ColorCalculation {
     final double percentageOfPrevColor = 1 - percentageOfNextColor;
 
     // If is between needs to be calculated
-    if (colorScaleTypeEnum == ColorScaleTypeEnum.rgb) {
-      return _getColorForValueRGB(
-          prevColor, nextColor, percentageOfPrevColor, percentageOfNextColor);
-    } else if (colorScaleTypeEnum == ColorScaleTypeEnum.hsluv) {
-      return _getColorForValueOKLCH(
-          prevColor, nextColor, percentageOfPrevColor, percentageOfNextColor);
-    } else {
-      throw Exception('Color scale type not supported');
+    switch (colorScaleTypeEnum) {
+      case ColorScaleTypeEnum.rgb:
+        return _getColorForValueRGB(
+            prevColor, nextColor, percentageOfPrevColor, percentageOfNextColor);
+      case ColorScaleTypeEnum.hsluv:
+        return _getColorForValueHsluv(
+            prevColor, nextColor, percentageOfPrevColor, percentageOfNextColor);
+      case ColorScaleTypeEnum.oklch:
+        return _getColorForValueOklch(
+            prevColor, nextColor, percentageOfPrevColor, percentageOfNextColor);
     }
   }
 
@@ -62,7 +65,7 @@ class ColorCalculation {
     return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), opacity);
   }
 
-  static Color _getColorForValueOKLCH(Color prevColor, Color nextColor,
+  static Color _getColorForValueHsluv(Color prevColor, Color nextColor,
       double percentageOfPrevColor, double percentageOfNextColor) {
     // Alpha is calculated independently
     final double alpha = prevColor.opacity * percentageOfPrevColor +
@@ -85,5 +88,36 @@ class ColorCalculation {
     final Color color =
         HSLuvColor.fromHSL(hue, saturation, lightness).toColor();
     return color.withOpacity(alpha);
+  }
+
+  static Color _getColorForValueOklch(Color prevColor, Color nextColor,
+      double percentageOfPrevColor, double percentageOfNextColor) {
+    final double alpha = prevColor.opacity * percentageOfPrevColor +
+        nextColor.opacity * percentageOfNextColor;
+
+    final OKLCHColor prevOklch = OKLCHColor.fromColor(prevColor);
+    final OKLCHColor nextOklch = OKLCHColor.fromColor(nextColor);
+
+    final double lightness =
+        prevOklch.lightness * percentageOfPrevColor +
+            nextOklch.lightness * percentageOfNextColor;
+
+    final double chroma =
+        prevOklch.chroma * percentageOfPrevColor +
+            nextOklch.chroma * percentageOfNextColor;
+
+    final double hue =
+        _lerpHue(prevOklch.hue, nextOklch.hue, percentageOfNextColor);
+
+    final Color color = OKLCHColor(lightness, chroma, hue).toColor();
+    return color.withOpacity(alpha);
+  }
+
+  static double _lerpHue(double startHue, double endHue, double t) {
+    double delta = (endHue - startHue) % 360;
+    if (delta > 180) {
+      delta -= 360;
+    }
+    return (startHue + delta * t) % 360;
   }
 }

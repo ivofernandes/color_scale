@@ -11,7 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  hsluv: ^1.1.3
+  hsluv: ">=1.1.3 <3.0.0"
+  oklch: ">=0.0.1 <2.0.0"
 
 
 dev_dependencies:
