@@ -23,22 +23,68 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Color Scale Demo',
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xff8b6df6),
+            brightness: Brightness.dark,
+          ),
+          scaffoldBackgroundColor: const Color(0xff0f0d16),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xff0f0d16),
+            elevation: 0,
+            centerTitle: true,
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: const Color(0xff2a2733),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            labelStyle: const TextStyle(color: Colors.white70),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          ),
+          sliderTheme: const SliderThemeData(
+            activeTrackColor: Color(0xff8b6df6),
+            inactiveTrackColor: Color(0x55ffffff),
+            thumbColor: Color(0xffc4b1ff),
+          ),
+          textTheme: const TextTheme(
+            headlineMedium: TextStyle(
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.5,
+            ),
+            titleMedium: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.white70,
+            ),
+            bodyMedium: TextStyle(
+              color: Colors.white70,
+            ),
+          ),
+        ),
         home: Scaffold(
           appBar: AppBar(
             title: const Text('Color scale'),
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.all(10),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  DropdownButton<ColorScaleTypeEnum>(
+                  DropdownButtonFormField<ColorScaleTypeEnum>(
                     value: colorScaleTypeEnum,
                     onChanged: (ColorScaleTypeEnum? newValue) {
                       setState(() {
                         colorScaleTypeEnum = newValue!;
                       });
                     },
+                    decoration: const InputDecoration(
+                      labelText: 'Color space',
+                    ),
                     items: ColorScaleTypeEnum.values
                         .map<DropdownMenuItem<ColorScaleTypeEnum>>(
                           (ColorScaleTypeEnum value) =>
@@ -49,91 +95,86 @@ class _MyAppState extends State<MyApp> {
                         )
                         .toList(),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text('Example with stops'),
+                  const SizedBox(height: 24),
+                  const SectionHeader(text: 'Example with stops'),
                   StopsValueAndColorsWidget(
                     key: UniqueKey(),
                     colorStops: <double, Color>{
                       -5: Colors.red,
-                      0: const Color(0xff808080),
+                      0: Colors.white,
                       5: Colors.green,
                     },
                     colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
-                  const Text('Example with slider'),
+                  const SizedBox(height: 24),
+                  const SectionHeader(text: 'Example with slider'),
                   const ExampleWithSlider(
-                      text: 'Slide between min and max color',
-                      minColor: Colors.red,
-                      maxColor: Colors.green),
-                  const SizedBox(
-                    height: 50,
+                    text: 'Slide between min and max color',
                   ),
+                  const SizedBox(height: 32),
+                  const SectionHeader(text: 'Color scale presets'),
                   TestColorScale(
                     text: 'Colors from red to green',
                     values: const [-20, -15, -10, -5, 0, 5, 10, 15],
-                    minValue: -20,
-                    minColor: Colors.red,
-                    maxValue: 20,
-                    maxColor: Colors.green,
                     colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
                   TestColorScale(
                     text: 'Colors from blue to green',
                     values: const [-20, -15, -10, -5, 0, 5, 10, 15],
-                    minValue: -20,
                     minColor: Colors.blue,
-                    maxValue: 20,
-                    maxColor: Colors.green,
                     colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
                   TestColorScale(
                     text: 'Colors from red to yellow',
                     values: const [-20, -15, -10, -5, 0, 5, 10, 15],
-                    minValue: -20,
-                    minColor: Colors.red,
-                    maxValue: 20,
                     maxColor: Colors.yellow,
                     colorScaleTypeEnum: colorScaleTypeEnum,
                   ),
-                  const Text('Childless example'),
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: ColorScaleWidget(
-                        value: 0,
-                        minValue: -20,
-                        minColor: Colors.white,
-                        maxValue: 20,
-                        maxColor: Colors.black,
-                        colorScaleTypeEnum: colorScaleTypeEnum,
+                  const SizedBox(height: 24),
+                  const SectionHeader(text: 'Childless examples'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: ColorScaleWidget(
+                            value: 0,
+                            minColor: Colors.white,
+                            maxColor: Colors.black,
+                            colorScaleTypeEnum: colorScaleTypeEnum,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const Text('Childless example with stops'),
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: ColorScaleStopsWidget(
-                        value: 0,
-                        colorStops: <double, Color>{
-                          -20: Colors.red,
-                          0: Colors.yellow,
-                          20: Colors.green,
-                        },
-                        colorScaleTypeEnum: colorScaleTypeEnum,
+                      const SizedBox(width: 20),
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: ColorScaleStopsWidget(
+                            value: 0,
+                            colorStops: <double, Color>{
+                              -20: Colors.red,
+                              0: Colors.yellow,
+                              20: Colors.green,
+                            },
+                            colorScaleTypeEnum: colorScaleTypeEnum,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  Text('Example with border radius and padding'),
+                  const SizedBox(height: 20),
+                  const SectionHeader(
+                      text: 'Example with border radius and padding'),
                   ColorScaleStopsWidget(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    padding: const EdgeInsets.all(10),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    padding: const EdgeInsets.all(12),
                     value: 0,
                     colorStops: <double, Color>{
                       -20: Colors.red,
@@ -141,7 +182,10 @@ class _MyAppState extends State<MyApp> {
                       20: Colors.green,
                     },
                     colorScaleTypeEnum: colorScaleTypeEnum,
-                    child: Text('P'),
+                    child: const Text(
+                      'P',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -183,6 +227,8 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
   double maxValue = 20;
 
   double value = 0;
+  late final TextEditingController minController;
+  late final TextEditingController maxController;
 
   @override
   void initState() {
@@ -193,6 +239,16 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
 
     maxColor = widget.maxColor;
     maxValue = widget.maxValue;
+
+    minController = TextEditingController(text: minValue.toString());
+    maxController = TextEditingController(text: maxValue.toString());
+  }
+
+  @override
+  void dispose() {
+    minController.dispose();
+    maxController.dispose();
+    super.dispose();
   }
 
   @override
@@ -224,11 +280,18 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                   ),
                   const Text('Minimum Value'),
                   TextField(
-                    keyboardType: TextInputType.number,
-                    controller:
-                        TextEditingController(text: minValue.toString()),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      signed: true,
+                      decimal: true,
+                    ),
+                    controller: minController,
                     onChanged: (inputValue) => setState(() {
-                      minValue = double.parse(inputValue);
+                      final double? parsedValue =
+                          double.tryParse(inputValue);
+                      if (parsedValue == null) {
+                        return;
+                      }
+                      minValue = parsedValue;
                       value = max(value, minValue);
                     }),
                   ),
@@ -246,11 +309,18 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                   ),
                   const Text('Maximum Value'),
                   TextField(
-                    keyboardType: TextInputType.number,
-                    controller:
-                        TextEditingController(text: maxValue.toString()),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      signed: true,
+                      decimal: true,
+                    ),
+                    controller: maxController,
                     onChanged: (inputValue) => setState(() {
-                      maxValue = double.parse(inputValue);
+                      final double? parsedValue =
+                          double.tryParse(inputValue);
+                      if (parsedValue == null) {
+                        return;
+                      }
+                      maxValue = parsedValue;
                       value = min(value, maxValue);
                     }),
                   ),
@@ -329,13 +399,20 @@ class _MyColorPickerState extends State<MyColorPicker> {
   }
 
   @override
+  void didUpdateWidget(covariant MyColorPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialColor != widget.initialColor) {
+      _pickedColor = widget.initialColor;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) => SizedBox(
         width: double.infinity,
         height: 80,
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 50,
-              childAspectRatio: 1 / 1,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10),
           itemCount: widget.availableColors.length,
@@ -356,7 +433,7 @@ class _MyColorPickerState extends State<MyColorPicker> {
                     shape: widget.circleItem == true
                         ? BoxShape.circle
                         : BoxShape.rectangle,
-                    border: Border.all(width: 1, color: Colors.grey.shade300)),
+                    border: Border.all(color: Colors.grey.shade300)),
                 child: itemColor == _pickedColor
                     ? const Center(
                         child: Icon(
@@ -456,8 +533,8 @@ class TestColorScale extends StatelessWidget {
 
 class StopsValueAndColorsWidget extends StatefulWidget {
   final Map<double, Color> colorStops;
-
   final ColorScaleTypeEnum colorScaleTypeEnum;
+
   const StopsValueAndColorsWidget({
     required this.colorStops,
     required this.colorScaleTypeEnum,
@@ -470,81 +547,135 @@ class StopsValueAndColorsWidget extends StatefulWidget {
 }
 
 class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
-  Map<double, Color> colorStops = {};
+  final List<_StopEntry> stops = [];
   double value = 0;
+  late final List<Color> _baseAvailableColors;
 
   @override
   void initState() {
     super.initState();
 
-    colorStops = widget.colorStops;
+    // Create stable entries once; they can reorder visually without losing state.
+    stops.addAll(
+      widget.colorStops.entries.map(
+        (entry) => _StopEntry(
+          id: UniqueKey().toString(),
+          value: entry.key,
+          color: entry.value,
+        ),
+      ),
+    );
+    // Keep a stable palette so previously available colors don't disappear.
+    _baseAvailableColors = {
+      ...widget.colorStops.values,
+      Colors.purple.withOpacity(0.25),
+      Colors.pink.withOpacity(0.5),
+    }.toList();
+  }
+
+  @override
+  void dispose() {
+    for (final stop in stops) {
+      stop.dispose();
+    }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    int i = 0;
+    final List<_StopEntry> sortedStops = [...stops]
+      ..sort((a, b) => a.value.compareTo(b.value));
+
+    final Map<double, Color> orderedStops = {
+      for (final stop in sortedStops) stop.value: stop.color,
+    };
+
+    // Stable palette + current stop colors (deduped) so options don't disappear.
+    final List<Color> availableColors = {
+      ..._baseAvailableColors,
+      ...orderedStops.values,
+    }.toList();
+
+    final double minStop = sortedStops.first.value;
+    final double maxStop = sortedStops.last.value;
+    final double clampedValue = value.clamp(minStop, maxStop);
 
     return Card(
       child: Container(
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Column(
-              children: colorStops.keys.map((stopValue) {
-                i++;
-                final Color stopColor = colorStops[stopValue]!;
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MyColorPicker(
-                      onSelectColor: (color) => setState(() {
-                        colorStops[stopValue] = color;
-                      }),
-                      initialColor: stopColor,
-                      availableColors: [
-                        ...colorStops.values,
-                        Colors.purple.withOpacity(0.25),
-                        Colors.pink.withOpacity(0.5)
-                      ],
-                    ),
-                    Container(
-                      width: 100,
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        controller:
-                            TextEditingController(text: stopValue.toString()),
-                        onChanged: (inputValue) => setState(() {
-                          final double newValue = double.parse(inputValue);
-                          colorStops.remove(stopValue);
-                          colorStops[newValue] = stopColor;
+              children: sortedStops.asMap().entries.map((entry) {
+                final int index = entry.key + 1;
+                final _StopEntry stop = entry.value;
+
+                return Padding(
+                  key: ValueKey(stop.id),
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MyColorPicker(
+                        key: ValueKey('picker_${stop.id}'),
+                        onSelectColor: (color) => setState(() {
+                          stop.color = color;
                         }),
-                        decoration: InputDecoration(
-                          label: Text('Stop $i'),
+                        initialColor: stop.color,
+                        availableColors: availableColors,
+                      ),
+                      Container(
+                        width: 140,
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: TextField(
+                          key: ValueKey('field_${stop.id}'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                            signed: true,
+                            decimal: true,
+                          ),
+                          controller: stop.controller,
+                          onChanged: (inputValue) => setState(() {
+                            final double? newValue =
+                                double.tryParse(inputValue);
+                            if (newValue == null) {
+                              return;
+                            }
+                            stop.value = newValue;
+                          }),
+                          decoration: InputDecoration(
+                            label: Text('Stop $index'),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               }).toList(),
             ),
             Slider(
-                min: colorStops.keys.first,
-                max: colorStops.keys.last,
-                value: value,
-                onChanged: onSliderMove),
+              min: minStop,
+              max: maxStop,
+              value: clampedValue,
+              onChanged: onSliderMove,
+            ),
             ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
               child: ColorScaleStopsWidget(
-                value: value,
-                colorStops: colorStops,
+                value: clampedValue,
+                colorStops: orderedStops,
                 colorScaleTypeEnum: widget.colorScaleTypeEnum,
                 child: Container(
-                  margin: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      const Text('Slide between diferent stops'),
-                      Text('value: ${value.toStringAsFixed(2)}')
+                      Text('Slide between different stops',
+                      style:Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.black
+                      ),),
+                      Text('Value: ${clampedValue.toStringAsFixed(2)}',style:Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.black
+                      )),
                     ],
                   ),
                 ),
@@ -561,4 +692,33 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
       this.value = value;
     });
   }
+}
+
+class SectionHeader extends StatelessWidget {
+  final String text;
+  const SectionHeader({required this.text, super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.titleMedium,
+          textAlign: TextAlign.center,
+        ),
+      );
+}
+
+class _StopEntry {
+  _StopEntry({required this.id, required this.value, required this.color})
+      : controller = TextEditingController(
+          text: value.toStringAsFixed(1),
+        );
+
+  final String id;
+  double value;
+  Color color;
+  final TextEditingController controller;
+
+  void dispose() => controller.dispose();
 }
