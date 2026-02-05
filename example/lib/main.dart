@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DropdownButtonFormField<ColorScaleTypeEnum>(
-                    value: colorScaleTypeEnum,
+                    initialValue: colorScaleTypeEnum,
                     onChanged: (ColorScaleTypeEnum? newValue) {
                       setState(() {
                         colorScaleTypeEnum = newValue!;
@@ -274,8 +274,8 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                       Colors.red,
                       Colors.orange,
                       Colors.amberAccent,
-                      Colors.purple.withOpacity(0.25),
-                      Colors.pink.withOpacity(0.5)
+                      Colors.purple.withValues(alpha: 0.25),
+                      Colors.pink.withValues(alpha: 0.5)
                     ],
                   ),
                   const Text('Minimum Value'),
@@ -303,8 +303,8 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                       Colors.green,
                       Colors.greenAccent,
                       Colors.blue,
-                      Colors.cyan.withOpacity(0.25),
-                      Colors.teal.withOpacity(0.5)
+                      Colors.cyan.withValues(alpha: 0.25),
+                      Colors.teal.withValues(alpha: 0.5)
                     ],
                   ),
                   const Text('Maximum Value'),
@@ -568,8 +568,8 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
     // Keep a stable palette so previously available colors don't disappear.
     _baseAvailableColors = {
       ...widget.colorStops.values,
-      Colors.purple.withOpacity(0.25),
-      Colors.pink.withOpacity(0.5),
+      Colors.purple.withValues(alpha: 0.25),
+      Colors.pink.withValues(alpha: 0.5),
     }.toList();
   }
 

@@ -16,7 +16,7 @@ void main() {
     final Color actualColor = ColorCalculation.getColorForValue(
         value, colorStops, ColorScaleTypeEnum.rgb);
 
-    expect(actualColor.value, Colors.red.value);
+    expect(actualColor.toARGB32(), Colors.red.toARGB32());
   });
 
   test('getColorForValue returns correct color for value 25%', () {
@@ -34,7 +34,7 @@ void main() {
     final actualColor = ColorCalculation.getColorForValue(
         value, colorStops, ColorScaleTypeEnum.rgb);
 
-    expect(actualColor.value, Colors.yellow.value);
+    expect(actualColor.toARGB32(), Colors.yellow.toARGB32());
   });
 
   testWidgets('ColorScaleStopsWidget renders correct color 75%',
@@ -58,6 +58,6 @@ void main() {
     final actualColor = ColorCalculation.getColorForValue(
         value, colorStops, ColorScaleTypeEnum.rgb);
 
-    expect(actualColor.value, Colors.green.value);
+    expect(actualColor.toARGB32(), Colors.green.toARGB32());
   });
 }

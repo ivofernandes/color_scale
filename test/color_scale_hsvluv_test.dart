@@ -21,8 +21,10 @@ void main() {
       ColorScaleTypeEnum.hsluv,
     );
 
-    assert(actualColor.blue == expectedColor.blue);
-    assert(actualColor.red == expectedColor.red);
-    assert(actualColor.green == expectedColor.green);
+    assert(_asColorInt(actualColor.b) == _asColorInt(expectedColor.b));
+    assert(_asColorInt(actualColor.r) == _asColorInt(expectedColor.r));
+    assert(_asColorInt(actualColor.g) == _asColorInt(expectedColor.g));
   });
 }
+
+int _asColorInt(double component) => (component * 255.0).round() & 0xff;

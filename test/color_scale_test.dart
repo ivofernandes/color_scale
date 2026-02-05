@@ -22,27 +22,19 @@ void main() {
       ColorScaleTypeEnum.rgb,
     );
 
-    assert(actualColor.blue == expectedColor.blue);
-    assert(actualColor.red == expectedColor.red);
-    assert(actualColor.green == expectedColor.green);
+    assert(_asColorInt(actualColor.b) == _asColorInt(expectedColor.b));
+    assert(_asColorInt(actualColor.r) == _asColorInt(expectedColor.r));
+    assert(_asColorInt(actualColor.g) == _asColorInt(expectedColor.g));
   });
 
   testWidgets('ColorScaleWidget renders correct color', (tester) async {
-    const minValue = -20.0;
-    const minColor = Colors.red;
-    const maxValue = 20.0;
-    const maxColor = Colors.green;
     const value = 0.0;
 
     await tester.pumpWidget(
       const ColorScaleWidget(
         value: value,
-        minValue: minValue,
-        minColor: minColor,
-        maxValue: maxValue,
-        maxColor: maxColor,
-        child: SizedBox(),
         colorScaleTypeEnum: ColorScaleTypeEnum.rgb,
+        child: SizedBox(),
       ),
     );
 
@@ -70,12 +62,14 @@ void main() {
       ColorScaleTypeEnum.rgb,
     );
 
-    assert(colorForNan.blue == minColor.blue);
-    assert(colorForNan.red == minColor.red);
-    assert(colorForNan.green == minColor.green);
+    assert(_asColorInt(colorForNan.b) == _asColorInt(minColor.b));
+    assert(_asColorInt(colorForNan.r) == _asColorInt(minColor.r));
+    assert(_asColorInt(colorForNan.g) == _asColorInt(minColor.g));
 
-    assert(colorForInfinity.blue == maxColor.blue);
-    assert(colorForInfinity.red == maxColor.red);
-    assert(colorForInfinity.green == maxColor.green);
+    assert(_asColorInt(colorForInfinity.b) == _asColorInt(maxColor.b));
+    assert(_asColorInt(colorForInfinity.r) == _asColorInt(maxColor.r));
+    assert(_asColorInt(colorForInfinity.g) == _asColorInt(maxColor.g));
   });
 }
+
+int _asColorInt(double component) => (component * 255.0).round() & 0xff;

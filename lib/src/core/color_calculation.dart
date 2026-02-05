@@ -54,22 +54,23 @@ class ColorCalculation {
   static Color _getColorForValueRGB(Color prevColor, Color nextColor,
       double percentageOfPrevColor, double percentageOfNextColor) {
     // Mix the colors based on the percentage
-    final double green = prevColor.green * percentageOfPrevColor +
-        nextColor.green * percentageOfNextColor;
-    final double blue = prevColor.blue * percentageOfPrevColor +
-        nextColor.blue * percentageOfNextColor;
-    final double red = prevColor.red * percentageOfPrevColor +
-        nextColor.red * percentageOfNextColor;
-    final double opacity = prevColor.opacity * percentageOfPrevColor +
-        nextColor.opacity * percentageOfNextColor;
+    final double green =
+        _toColorInt(prevColor.g) * percentageOfPrevColor +
+            _toColorInt(nextColor.g) * percentageOfNextColor;
+    final double blue = _toColorInt(prevColor.b) * percentageOfPrevColor +
+        _toColorInt(nextColor.b) * percentageOfNextColor;
+    final double red = _toColorInt(prevColor.r) * percentageOfPrevColor +
+        _toColorInt(nextColor.r) * percentageOfNextColor;
+    final double opacity =
+        prevColor.a * percentageOfPrevColor + nextColor.a * percentageOfNextColor;
     return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), opacity);
   }
 
   static Color _getColorForValueHsluv(Color prevColor, Color nextColor,
       double percentageOfPrevColor, double percentageOfNextColor) {
     // Alpha is calculated independently
-    final double alpha = prevColor.opacity * percentageOfPrevColor +
-        nextColor.opacity * percentageOfNextColor;
+    final double alpha = prevColor.a * percentageOfPrevColor +
+        nextColor.a * percentageOfNextColor;
 
     // RGB is calculated by using the HSLuvColor class
     final HSLuvColor prevHsluvColor = HSLuvColor.fromColor(prevColor);
@@ -87,13 +88,13 @@ class ColorCalculation {
 
     final Color color =
         HSLuvColor.fromHSL(hue, saturation, lightness).toColor();
-    return color.withOpacity(alpha);
+    return color.withValues(alpha: alpha);
   }
 
   static Color _getColorForValueOklch(Color prevColor, Color nextColor,
       double percentageOfPrevColor, double percentageOfNextColor) {
-    final double alpha = prevColor.opacity * percentageOfPrevColor +
-        nextColor.opacity * percentageOfNextColor;
+    final double alpha = prevColor.a * percentageOfPrevColor +
+        nextColor.a * percentageOfNextColor;
 
     final OKLCHColor prevOklch = OKLCHColor.fromColor(prevColor);
     final OKLCHColor nextOklch = OKLCHColor.fromColor(nextColor);
@@ -110,8 +111,11 @@ class ColorCalculation {
         _lerpHue(prevOklch.hue, nextOklch.hue, percentageOfNextColor);
 
     final Color color = OKLCHColor(lightness, chroma, hue).toColor();
-    return color.withOpacity(alpha);
+    return color.withValues(alpha: alpha);
   }
+
+  static int _toColorInt(double colorComponent) =>
+      (colorComponent * 255.0).round() & 0xff;
 
   static double _lerpHue(double startHue, double endHue, double t) {
     double delta = (endHue - startHue) % 360;

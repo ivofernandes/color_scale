@@ -32,9 +32,9 @@ void main() {
     final Color expectedColor =
         OKLCHColor(lightness, chroma, hue).toColor();
 
-    expect(actualColor.red, expectedColor.red);
-    expect(actualColor.green, expectedColor.green);
-    expect(actualColor.blue, expectedColor.blue);
+    expect(_asColorInt(actualColor.r), _asColorInt(expectedColor.r));
+    expect(_asColorInt(actualColor.g), _asColorInt(expectedColor.g));
+    expect(_asColorInt(actualColor.b), _asColorInt(expectedColor.b));
   });
 }
 
@@ -45,3 +45,5 @@ double _lerpHue(double startHue, double endHue, double t) {
   }
   return (startHue + delta * t) % 360;
 }
+
+int _asColorInt(double component) => (component * 255.0).round() & 0xff;
