@@ -18,3 +18,6 @@ Fix format
 
 ## 0.0.7
 Added optional radius and padding
+
+## 0.0.8
+Added oklch color space support

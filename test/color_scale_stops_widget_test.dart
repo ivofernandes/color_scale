@@ -22,11 +22,10 @@ void main() {
   test('getColorForValue returns correct color for value 25%', () {
     const value = 25.0;
 
-    final expectedColor = Color.lerp(Colors.red, Colors.yellow, 0.5);
     final actualColor = ColorCalculation.getColorForValue(
         value, colorStops, ColorScaleTypeEnum.rgb);
 
-    expect(actualColor, expectedColor);
+    expect(actualColor.toARGB32(), const Color(0xFFF99738).toARGB32());
   });
 
   test('getColorForValue returns correct color for value 50%', () {
@@ -45,12 +44,13 @@ void main() {
       ColorScaleStopsWidget(
         value: value,
         colorStops: colorStops,
+        colorScaleTypeEnum: ColorScaleTypeEnum.rgb,
         child: const SizedBox(),
       ),
     );
 
     final container = tester.widget<ColoredBox>(find.byType(ColoredBox));
-    expect(container.color, Color.lerp(Colors.green, Colors.yellow, 0.5));
+    expect(container.color.toARGB32(), const Color(0xFFA5CD45).toARGB32());
   });
 
   test('getColorForValue returns correct color for value 100%', () {
