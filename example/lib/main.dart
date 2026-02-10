@@ -286,8 +286,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                     ),
                     controller: minController,
                     onChanged: (inputValue) => setState(() {
-                      final double? parsedValue =
-                          double.tryParse(inputValue);
+                      final double? parsedValue = double.tryParse(inputValue);
                       if (parsedValue == null) {
                         return;
                       }
@@ -315,8 +314,7 @@ class _ExampleWithSliderState extends State<ExampleWithSlider> {
                     ),
                     controller: maxController,
                     onChanged: (inputValue) => setState(() {
-                      final double? parsedValue =
-                          double.tryParse(inputValue);
+                      final double? parsedValue = double.tryParse(inputValue);
                       if (parsedValue == null) {
                         return;
                       }
@@ -669,13 +667,18 @@ class _StopsValueAndColorsWidgetState extends State<StopsValueAndColorsWidget> {
                   margin: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      Text('Slide between different stops',
-                      style:Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.black
-                      ),),
-                      Text('Value: ${clampedValue.toStringAsFixed(2)}',style:Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.black
-                      )),
+                      Text(
+                        'Slide between different stops',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.black),
+                      ),
+                      Text('Value: ${clampedValue.toStringAsFixed(2)}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: Colors.black)),
                     ],
                   ),
                 ),

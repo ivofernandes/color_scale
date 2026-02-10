@@ -25,12 +25,12 @@ void main() {
     final OKLCHColor maxOklch = OKLCHColor.fromColor(maxColor);
     const double t = 0.5;
 
-    final double lightness = minOklch.lightness * (1 - t) + maxOklch.lightness * t;
+    final double lightness =
+        minOklch.lightness * (1 - t) + maxOklch.lightness * t;
     final double chroma = minOklch.chroma * (1 - t) + maxOklch.chroma * t;
     final double hue = _lerpHue(minOklch.hue, maxOklch.hue, t);
 
-    final Color expectedColor =
-        OKLCHColor(lightness, chroma, hue).toColor();
+    final Color expectedColor = OKLCHColor(lightness, chroma, hue).toColor();
 
     expect(_asColorInt(actualColor.r), _asColorInt(expectedColor.r));
     expect(_asColorInt(actualColor.g), _asColorInt(expectedColor.g));

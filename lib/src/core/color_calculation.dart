@@ -54,15 +54,14 @@ class ColorCalculation {
   static Color _getColorForValueRGB(Color prevColor, Color nextColor,
       double percentageOfPrevColor, double percentageOfNextColor) {
     // Mix the colors based on the percentage
-    final double green =
-        _toColorInt(prevColor.g) * percentageOfPrevColor +
-            _toColorInt(nextColor.g) * percentageOfNextColor;
+    final double green = _toColorInt(prevColor.g) * percentageOfPrevColor +
+        _toColorInt(nextColor.g) * percentageOfNextColor;
     final double blue = _toColorInt(prevColor.b) * percentageOfPrevColor +
         _toColorInt(nextColor.b) * percentageOfNextColor;
     final double red = _toColorInt(prevColor.r) * percentageOfPrevColor +
         _toColorInt(nextColor.r) * percentageOfNextColor;
-    final double opacity =
-        prevColor.a * percentageOfPrevColor + nextColor.a * percentageOfNextColor;
+    final double opacity = prevColor.a * percentageOfPrevColor +
+        nextColor.a * percentageOfNextColor;
     return Color.fromRGBO(red.toInt(), green.toInt(), blue.toInt(), opacity);
   }
 
@@ -99,13 +98,11 @@ class ColorCalculation {
     final OKLCHColor prevOklch = OKLCHColor.fromColor(prevColor);
     final OKLCHColor nextOklch = OKLCHColor.fromColor(nextColor);
 
-    final double lightness =
-        prevOklch.lightness * percentageOfPrevColor +
-            nextOklch.lightness * percentageOfNextColor;
+    final double lightness = prevOklch.lightness * percentageOfPrevColor +
+        nextOklch.lightness * percentageOfNextColor;
 
-    final double chroma =
-        prevOklch.chroma * percentageOfPrevColor +
-            nextOklch.chroma * percentageOfNextColor;
+    final double chroma = prevOklch.chroma * percentageOfPrevColor +
+        nextOklch.chroma * percentageOfNextColor;
 
     final double hue =
         _lerpHue(prevOklch.hue, nextOklch.hue, percentageOfNextColor);
