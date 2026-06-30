@@ -21,3 +21,6 @@ Added optional radius and padding
 
 ## 0.0.8
 Added oklch color space support
+
+## 0.0.9
+Updated dependencies

@@ -19,6 +19,11 @@ Add the dependency to your `pubspec.yaml`:
 color_scale: ^0.0.4
 ```
 
+
+## Supported SDK versions
+
+This package requires Flutter 3.27.0 or newer and Dart 3.6.0 or newer. These minimum versions provide the modern `Color` APIs used by the package and tests, including `Color.withValues`, `Color.toARGB32`, and the normalized `Color` component getters (`.r`, `.g`, `.b`, and `.a`).
+
 ## Usage
 ```dart
 ColorScaleWidget(
