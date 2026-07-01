@@ -6,30 +6,41 @@ import 'package:oklch/oklch.dart';
 class ColorCalculation {
   static Color getColorForValue(double value, Map<double, Color> colorStops,
       ColorScaleTypeEnum colorScaleTypeEnum) {
+    if (colorStops.isEmpty) {
+      throw ArgumentError.value(colorStops, 'colorStops', 'must not be empty');
+    }
+
+    final sortedColorStops = colorStops.entries.toList()
+      ..sort((first, second) => first.key.compareTo(second.key));
+
     // Check if the value is lower than the lowest stop
-    if (value < colorStops.keys.first) {
-      return colorStops.values.first;
+    if (value < sortedColorStops.first.key) {
+      return sortedColorStops.first.value;
     }
     // Check if the value is higher than the highest stop
-    if (value > colorStops.keys.last) {
-      return colorStops.values.last;
+    if (value > sortedColorStops.last.key) {
+      return sortedColorStops.last.value;
     }
 
     // Find the two closest stops
-    double prevStop = 0;
-    double nextStop = 0;
-    Color prevColor = Colors.black;
-    Color nextColor = Colors.black;
-    for (final double stop in colorStops.keys) {
-      if (stop <= value) {
-        prevStop = stop;
-        prevColor = colorStops[stop]!;
+    double prevStop = sortedColorStops.first.key;
+    double nextStop = sortedColorStops.last.key;
+    Color prevColor = sortedColorStops.first.value;
+    Color nextColor = sortedColorStops.last.value;
+    for (final stopEntry in sortedColorStops) {
+      if (stopEntry.key <= value) {
+        prevStop = stopEntry.key;
+        prevColor = stopEntry.value;
       } else {
-        nextStop = stop;
-        nextColor = colorStops[stop]!;
+        nextStop = stopEntry.key;
+        nextColor = stopEntry.value;
         break;
       }
     }
+    if (prevStop == nextStop) {
+      return prevColor;
+    }
+
     // Calculate the percentage of each color based on the value
     final double range = nextStop - prevStop;
     final double relativeValue = value - prevStop;

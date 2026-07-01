@@ -53,6 +53,48 @@ void main() {
     expect(container.color.toARGB32(), const Color(0xFFA5CD45).toARGB32());
   });
 
+  test('getColorForValue handles intentionally unsorted color stops', () {
+    final unsortedColorStops = <double, Color>{
+      100: Colors.green,
+      0: Colors.red,
+      50: Colors.yellow,
+    };
+
+    final actualColor = ColorCalculation.getColorForValue(
+        25, unsortedColorStops, ColorScaleTypeEnum.rgb);
+
+    expect(actualColor.toARGB32(), const Color(0xFFF99738).toARGB32());
+  });
+
+  testWidgets('ColorScaleStopsWidget handles intentionally unsorted color stops',
+      (tester) async {
+    final unsortedColorStops = <double, Color>{
+      100: Colors.green,
+      0: Colors.red,
+      50: Colors.yellow,
+    };
+
+    await tester.pumpWidget(
+      ColorScaleStopsWidget(
+        value: 75,
+        colorStops: unsortedColorStops,
+        colorScaleTypeEnum: ColorScaleTypeEnum.rgb,
+        child: const SizedBox(),
+      ),
+    );
+
+    final container = tester.widget<ColoredBox>(find.byType(ColoredBox));
+    expect(container.color.toARGB32(), const Color(0xFFA5CD45).toARGB32());
+  });
+
+  test('getColorForValue throws when color stops are empty', () {
+    expect(
+      () => ColorCalculation.getColorForValue(
+          25, <double, Color>{}, ColorScaleTypeEnum.rgb),
+      throwsArgumentError,
+    );
+  });
+
   test('getColorForValue returns correct color for value 100%', () {
     const value = 100.0;
     final actualColor = ColorCalculation.getColorForValue(
