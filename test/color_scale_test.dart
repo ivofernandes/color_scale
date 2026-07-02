@@ -22,9 +22,9 @@ void main() {
       ColorScaleTypeEnum.rgb,
     );
 
-    assert(_asColorInt(actualColor.b) == _asColorInt(expectedColor.b));
-    assert(_asColorInt(actualColor.r) == _asColorInt(expectedColor.r));
-    assert(_asColorInt(actualColor.g) == _asColorInt(expectedColor.g));
+    expect(_asColorInt(actualColor.b), _asColorInt(expectedColor.b));
+    expect(_asColorInt(actualColor.r), _asColorInt(expectedColor.r));
+    expect(_asColorInt(actualColor.g), _asColorInt(expectedColor.g));
   });
 
   testWidgets('ColorScaleWidget renders correct color', (tester) async {
@@ -43,7 +43,7 @@ void main() {
     expect(container.color, Color.lerp(Colors.red, Colors.green, 0.5));
   });
 
-  test('getColorForValue returns black for NaN and infinity values', () {
+  test('getColorForValue returns lowest color for NaN and clamps infinity', () {
     const double minValue = -20;
     const Color minColor = Colors.red;
     const double maxValue = 20;
@@ -62,13 +62,44 @@ void main() {
       ColorScaleTypeEnum.rgb,
     );
 
-    assert(_asColorInt(colorForNan.b) == _asColorInt(minColor.b));
-    assert(_asColorInt(colorForNan.r) == _asColorInt(minColor.r));
-    assert(_asColorInt(colorForNan.g) == _asColorInt(minColor.g));
+    expect(_asColorInt(colorForNan.b), _asColorInt(minColor.b));
+    expect(_asColorInt(colorForNan.r), _asColorInt(minColor.r));
+    expect(_asColorInt(colorForNan.g), _asColorInt(minColor.g));
 
-    assert(_asColorInt(colorForInfinity.b) == _asColorInt(maxColor.b));
-    assert(_asColorInt(colorForInfinity.r) == _asColorInt(maxColor.r));
-    assert(_asColorInt(colorForInfinity.g) == _asColorInt(maxColor.g));
+    expect(_asColorInt(colorForInfinity.b), _asColorInt(maxColor.b));
+    expect(_asColorInt(colorForInfinity.r), _asColorInt(maxColor.r));
+    expect(_asColorInt(colorForInfinity.g), _asColorInt(maxColor.g));
+  });
+
+  test('getColorForValue clamps negative infinity to min color', () {
+    final actualColor = ColorCalculation.getColorForValue(
+      double.negativeInfinity,
+      const {-20: Colors.red, 20: Colors.green},
+      ColorScaleTypeEnum.rgb,
+    );
+
+    expect(actualColor.toARGB32(), Colors.red.toARGB32());
+  });
+
+  test('getColorForValue returns single stop color for any finite value', () {
+    final actualColor = ColorCalculation.getColorForValue(
+      123.45,
+      const {10: Colors.blue},
+      ColorScaleTypeEnum.rgb,
+    );
+
+    expect(actualColor.toARGB32(), Colors.blue.toARGB32());
+  });
+
+  test('getColorForValue throws when color stops are empty', () {
+    expect(
+      () => ColorCalculation.getColorForValue(
+        0,
+        <double, Color>{},
+        ColorScaleTypeEnum.rgb,
+      ),
+      throwsArgumentError,
+    );
   });
 }
 

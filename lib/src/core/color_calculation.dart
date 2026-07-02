@@ -4,6 +4,12 @@ import 'package:hsluv/hsluvcolor.dart';
 import 'package:oklch/oklch.dart';
 
 class ColorCalculation {
+  /// Returns the color for [value] from the given [colorStops].
+  ///
+  /// Empty [colorStops] are invalid and throw an [ArgumentError].
+  /// A single stop always returns that stop's color for any finite [value].
+  /// NaN values return the lowest stop color. Infinite values are clamped to
+  /// the lowest or highest stop color.
   static Color getColorForValue(double value, Map<double, Color> colorStops,
       ColorScaleTypeEnum colorScaleTypeEnum) {
     if (colorStops.isEmpty) {
@@ -13,12 +19,20 @@ class ColorCalculation {
     final sortedColorStops = colorStops.entries.toList()
       ..sort((first, second) => first.key.compareTo(second.key));
 
+    if (value.isNaN) {
+      return sortedColorStops.first.value;
+    }
+
+    if (sortedColorStops.length == 1) {
+      return sortedColorStops.first.value;
+    }
+
     // Check if the value is lower than the lowest stop
-    if (value < sortedColorStops.first.key) {
+    if (value <= sortedColorStops.first.key) {
       return sortedColorStops.first.value;
     }
     // Check if the value is higher than the highest stop
-    if (value > sortedColorStops.last.key) {
+    if (value >= sortedColorStops.last.key) {
       return sortedColorStops.last.value;
     }
 

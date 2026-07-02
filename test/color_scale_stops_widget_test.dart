@@ -95,6 +95,44 @@ void main() {
     );
   });
 
+  test('getColorForValue returns lowest stop color for NaN', () {
+    final actualColor = ColorCalculation.getColorForValue(
+        double.nan, colorStops, ColorScaleTypeEnum.rgb);
+
+    expect(actualColor.toARGB32(), Colors.red.toARGB32());
+  });
+
+  test('getColorForValue clamps infinite values to edge stop colors', () {
+    final negativeInfinityColor = ColorCalculation.getColorForValue(
+        double.negativeInfinity, colorStops, ColorScaleTypeEnum.rgb);
+    final positiveInfinityColor = ColorCalculation.getColorForValue(
+        double.infinity, colorStops, ColorScaleTypeEnum.rgb);
+
+    expect(negativeInfinityColor.toARGB32(), Colors.red.toARGB32());
+    expect(positiveInfinityColor.toARGB32(), Colors.green.toARGB32());
+  });
+
+  test('getColorForValue returns single stop color for any finite value', () {
+    final actualColor = ColorCalculation.getColorForValue(
+        75, const {50: Colors.purple}, ColorScaleTypeEnum.rgb);
+
+    expect(actualColor.toARGB32(), Colors.purple.toARGB32());
+  });
+
+  testWidgets('ColorScaleStopsWidget renders single stop color', (tester) async {
+    await tester.pumpWidget(
+      const ColorScaleStopsWidget(
+        value: 75,
+        colorStops: {50: Colors.purple},
+        colorScaleTypeEnum: ColorScaleTypeEnum.rgb,
+        child: SizedBox(),
+      ),
+    );
+
+    final container = tester.widget<ColoredBox>(find.byType(ColoredBox));
+    expect(container.color.toARGB32(), Colors.purple.toARGB32());
+  });
+
   test('getColorForValue returns correct color for value 100%', () {
     const value = 100.0;
     final actualColor = ColorCalculation.getColorForValue(

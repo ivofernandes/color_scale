@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ColorScaleTypeEnum colorScaleTypeEnum = ColorScaleTypeEnum.hsluv;
+  ColorScaleTypeEnum colorScaleTypeEnum = ColorScaleTypeEnum.oklch;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -211,7 +211,7 @@ class ExampleWithSlider extends StatefulWidget {
     this.minColor = Colors.red,
     this.maxValue = 20,
     this.maxColor = Colors.green,
-    this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
+    this.colorScaleTypeEnum = ColorScaleTypeEnum.oklch,
     super.key,
   });
 
@@ -466,7 +466,7 @@ class TestColorScale extends StatelessWidget {
     this.minColor = Colors.red,
     this.maxValue = 20,
     this.maxColor = Colors.green,
-    this.colorScaleTypeEnum = ColorScaleTypeEnum.hsluv,
+    this.colorScaleTypeEnum = ColorScaleTypeEnum.oklch,
     super.key,
   });
 
