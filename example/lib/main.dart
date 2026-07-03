@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:color_scale/color_scale.dart';
 import 'package:flutter/material.dart';
+import 'package:oklch/oklch.dart';
 
 void main() {
   runApp(const MyApp());
@@ -389,6 +390,7 @@ class MyColorPicker extends StatefulWidget {
 class _MyColorPickerState extends State<MyColorPicker> {
   // This variable used to determine where the checkmark will be
   late Color _pickedColor;
+  bool _showOklchPicker = false;
 
   @override
   void initState() {
@@ -405,46 +407,73 @@ class _MyColorPickerState extends State<MyColorPicker> {
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: double.infinity,
-        height: 80,
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 50,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10),
-          itemCount: widget.availableColors.length,
-          itemBuilder: (context, index) {
-            final Color itemColor = widget.availableColors[index];
-            return InkWell(
-              onTap: () {
-                widget.onSelectColor(itemColor);
-                setState(() {
-                  _pickedColor = itemColor;
-                });
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 80,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 50,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10),
+              itemCount: widget.availableColors.length,
+              itemBuilder: (context, index) {
+                final Color itemColor = widget.availableColors[index];
+                return InkWell(
+                  onTap: () => _selectColor(itemColor),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: itemColor,
+                        shape: widget.circleItem == true
+                            ? BoxShape.circle
+                            : BoxShape.rectangle,
+                        border: Border.all(color: Colors.grey.shade300)),
+                    child: itemColor == _pickedColor
+                        ? const Center(
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Container(),
+                  ),
+                );
               },
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                    color: itemColor,
-                    shape: widget.circleItem == true
-                        ? BoxShape.circle
-                        : BoxShape.rectangle,
-                    border: Border.all(color: Colors.grey.shade300)),
-                child: itemColor == _pickedColor
-                    ? const Center(
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Container(),
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              onPressed: () => setState(() {
+                _showOklchPicker = !_showOklchPicker;
+              }),
+              icon: Icon(
+                _showOklchPicker ? Icons.expand_less : Icons.palette_outlined,
               ),
-            );
-          },
-        ),
+              label: const Text('OKLCH color picker'),
+            ),
+          ),
+          if (_showOklchPicker)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: OKLCHColorPickerWidget(
+                color: _pickedColor,
+                onColorChanged: _selectColor,
+              ),
+            ),
+        ],
       );
+
+  void _selectColor(Color color) {
+    widget.onSelectColor(color);
+    setState(() {
+      _pickedColor = color;
+    });
+  }
 }
 
 class TestColorScale extends StatelessWidget {

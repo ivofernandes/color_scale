@@ -114,18 +114,18 @@ void main() {
 
   test('getColorForValue returns single stop color for any finite value', () {
     final actualColor = ColorCalculation.getColorForValue(
-        75, const {50: Colors.purple}, ColorScaleTypeEnum.rgb);
+        75, <double, Color>{50: Colors.purple}, ColorScaleTypeEnum.rgb);
 
     expect(actualColor.toARGB32(), Colors.purple.toARGB32());
   });
 
   testWidgets('ColorScaleStopsWidget renders single stop color', (tester) async {
     await tester.pumpWidget(
-      const ColorScaleStopsWidget(
+      ColorScaleStopsWidget(
         value: 75,
-        colorStops: {50: Colors.purple},
+        colorStops: <double, Color>{50: Colors.purple},
         colorScaleTypeEnum: ColorScaleTypeEnum.rgb,
-        child: SizedBox(),
+        child: const SizedBox(),
       ),
     );
 

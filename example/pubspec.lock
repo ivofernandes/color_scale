@@ -147,7 +147,7 @@ packages:
     source: hosted
     version: "1.17.0"
   oklch:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: oklch
       sha256: fefbda1e6c1f8bae10d52474e5b3d30dff33879e3d5686ff0e77f93401d02b1d

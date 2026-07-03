@@ -74,7 +74,7 @@ void main() {
   test('getColorForValue clamps negative infinity to min color', () {
     final actualColor = ColorCalculation.getColorForValue(
       double.negativeInfinity,
-      const {-20: Colors.red, 20: Colors.green},
+      <double, Color>{-20: Colors.red, 20: Colors.green},
       ColorScaleTypeEnum.rgb,
     );
 
@@ -84,7 +84,7 @@ void main() {
   test('getColorForValue returns single stop color for any finite value', () {
     final actualColor = ColorCalculation.getColorForValue(
       123.45,
-      const {10: Colors.blue},
+      <double, Color>{10: Colors.blue},
       ColorScaleTypeEnum.rgb,
     );
 
